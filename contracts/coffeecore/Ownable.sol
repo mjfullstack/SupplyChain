@@ -1,10 +1,16 @@
 pragma solidity ^0.4.24;
 
+/********* APPEARS VIDEO HIERARCHY IS FLAWED ***************
+/// Import SupplyChain BASE contract to this CORE / TOP contract
+import "../coffeebase/SupplyChain.sol";
+
 /// Provides basic authorization control
-contract Ownable {
+contract Ownable is SupplyChain { 
+ ********* APPEARS VIDEO HIERARCHY IS FLAWED ***************/
+contract Ownable { 
     address private origOwner;
 
-    // Define an Event
+    /// Define an Event
     event TransferOwnership(address indexed oldOwner, address indexed newOwner);
 
     /// Assign the contract to an owner
