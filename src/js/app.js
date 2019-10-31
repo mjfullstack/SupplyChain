@@ -1,5 +1,5 @@
 App = {
-    web3Provider: null,
+    web3Provider: `https://rinkeby.infura.io/v3/433751ea363f4bc0b73d7e32b7a805e6`,
     contracts: {},
     emptyAddress: "0x0000000000000000000000000000000000000000",
     sku: 0,
