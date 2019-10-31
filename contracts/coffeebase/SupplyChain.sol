@@ -5,12 +5,13 @@ import "../coffeeaccesscontrol/FarmerRole.sol";
 import "../coffeeaccesscontrol/DistributorRole.sol";
 import "../coffeeaccesscontrol/RetailerRole.sol";
 import "../coffeeaccesscontrol/ConsumerRole.sol";
+import "../coffeecore/Ownable.sol";
 
 // Define a contract 'Supplychain'
-contract SupplyChain is FarmerRole, DistributorRole, RetailerRole, ConsumerRole {
+contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, ConsumerRole {
 
   // Define 'owner'
-  address owner;
+  // MWJ: Adding OWNABLE // address owner;
 
   // Define a variable called 'upc' for Universal Product Code (UPC)
   uint  upc;
@@ -71,7 +72,7 @@ contract SupplyChain is FarmerRole, DistributorRole, RetailerRole, ConsumerRole 
 
   // Define a modifer that checks to see if msg.sender == owner of the contract
   modifier onlyOwner() {
-    require(msg.sender == owner);
+    require(msg.sender == owner()); // MWJ: Adding OWNABLE// owner);
     _;
   }
 
@@ -148,16 +149,16 @@ contract SupplyChain is FarmerRole, DistributorRole, RetailerRole, ConsumerRole 
   // and set 'sku' to 1
   // and set 'upc' to 1
   constructor() public payable {
-    owner = msg.sender;
+    // MWJ: Adding OWNABLE // owner = msg.sender;
     sku = 1;
     upc = 1;
   }
 
   // Define a function 'kill' if required
-  // MY Q's: WHY is this not at core/top level?
+  // MWJ: MY Q's: WHY is this not at core/top level?
   function kill() onlyOwner public {
-    if (msg.sender == owner) {
-      selfdestruct(owner);
+    if (msg.sender == owner() ) { // MWJ: Adding OWNABLE // owner) {
+      selfdestruct( owner() ); // MWJ: Adding OWNABLE // owner);
     }
   }
 
@@ -176,7 +177,7 @@ contract SupplyChain is FarmerRole, DistributorRole, RetailerRole, ConsumerRole 
     items[_upc] = Item( 
       { sku: sku, 
         upc: _upc, 
-        ownerID: owner, 
+        ownerID: owner(), // MWJ: Adding OWNABLE // owner, 
         originFarmerID: _originFarmerID,
         originFarmName: _originFarmName,
         originFarmInformation: _originFarmInformation,
