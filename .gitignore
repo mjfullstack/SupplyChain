@@ -4,7 +4,12 @@
 /node_modules
 
 # testing
-
+.secret
+truffle-config_simple.js
 
 # production
 /build
+
+# logs
+*.log
+*.txt
