@@ -7,92 +7,342 @@
     <title>Fair Trade Coffee</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- Bootstrap CSS CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <!-- jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>    
+
+    <!-- Bootstrap JS CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="container">
-        <h1 style="text-align: center;">Fair Trade Coffee</h1>
-        <hr>
-        <p style="text-align: center;">Prove the authenticity of coffee using the Ethereum blockchain.</p>
-    </div>
-
-    <div class="container">
-
-    <div id="ftc-harvest">
-        <h2>Product Overview</h2>
-        <div class="form-group">
-            SKU
-            <br>
-            <input class="input-field" type="number" id="sku" name="sku" value=1><br>
-            UPC
-            <br>
-            <input type="number" id="upc" name="upc" value=1><br>
-            Current Owner ID
-            <br>
-            <input type="text" id="ownerID" name="ownerID" value="0x963865f57804b38459dd4b2da2f760211a200438" size="50"><br>
-            <div class=button-div>
-                <button class="btn-fetchOne" id="button" type="button" data-id="9">Fetch Data 1</button>
-                <button class="btn-fetchTwo" id="button" type="button" data-id="10">Fetch Data 2</button>
+    <!-- Jumbotron -->
+    <div class="container-full-bg">  <!--  increased the jumbotron width -->
+        <div class="jumbotron">
+            <div class="container">
+                <h1 style="text-align: center;">Fair Trade Coffee</h1>
+                <hr>
+                <p style="text-align: center;">Prove the authenticity of coffee using the Ethereum blockchain.</p>
             </div>
         </div>
-        <div class=form-break></div>
-        <h2>Farm Details</h2>
-        <div class="form-group">
-            Farmer ID
-            <br>
-            <input type="text" id="originFarmerID" name="originFarmerID" value="0x99c289eb2aacec289631a5ddf62cf27a63d4494f"
-                size="50"><br>
-            Farm Name
-            <br>
-            <input type="text" id="originFarmName" name="originFarmName" value="John Doe"><br>
-            Farm Information
-            <br>
-            <input type="text" id="originFarmInformation" name="originFarmInformation" value="Yarra Valley"><br>
-            Farm Latitude
-            <br>
-            <input type="text" id="originFarmLatitude" name="originFarmLatitude" value="-38.239770"><br>
-            Farm Longitude
-            <br>
-            <input type="text" id="originFarmLongitude" name="originFarmLongitude" value="144.341490"><br>
-            <br>
-            <button class="btn-harvest" id="button" type="button" data-id="1">Harvest</button>
-            <button class="btn-process" id="button" type="button" data-id="2">Process</button>
-            <button class="btn-pack" id="button" type="button" data-id="3">Pack</button>
-            <button class="btn-forsale" id="button" type="button" data-id="4">ForSale</button>
-        </div>
-        <div class=form-break></div>
-        <h2>Product Details</h2>
-        <div class="form-group">
-            Product Notes
-            <br>
-            <input type="text" id="productNotes" name="productNotes" value="Best beans for Espresso" size="60"><br>
-            Product Price
-            <br>
-            <input type="number" id="productPrice" name="productPrice" value=1>ETH<br>
-            Distributor ID
-            <br>
-            <input type="text" id="distributorID" name="distributorID" value="0xf1b1bcd24dad92303dd9fe78be639f7bcf9c238d"
-                size="50">
-            <br>
-            Retailer ID
-            <br>
-            <input type="text" id="retailerID" name="retailerID" value="0x0fb2bfefd526966c87efa19f6693d50971763fc2"
-                size="50"><br>
-            Distributor ID
-            <br>
-            <input type="text" id="consumerID" name="consumerID" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
-                size="50"><br>
-            <br>
-            <button class="btn-buy" id="button" type="button" data-id="5">Buy</button>
-            <button class="btn-ship" id="button" type="button" data-id="6">Ship</button>
-            <button class="btn-receive" id="button" type="button" data-id="7">Receive</button>
-            <button class="btn-purchase" id="button" type="button" data-id="8">Purchase</button>
-        </div>
-        <div class=form-break></div>
-        <hr>
-    </div>
     </div>
 
+    <div class="container">
+        <h1 class="text-center">Product Overview</h1>
+        <hr>
+        <p></p>
+
+        <!-- Farmer and Product Details Row -->
+        <div class="row">
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Farmer Data Input & Processes</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        <!-- Farmer ID
+                        <br>
+                        <input type="text" id="originFarmerID" name="originFarmerID" value="0x99c289eb2aacec289631a5ddf62cf27a63d4494f"
+                            size="50"><br>
+                        Farm Name
+                        <br>
+                        <input type="text" id="originFarmName" name="originFarmName" value="John Doe"><br>
+                        Farm Information
+                        <br>
+                        <input type="text" id="originFarmInformation" name="originFarmInformation" value="Yarra Valley"><br>
+                        Farm Latitude
+                        <br>
+                        <input type="text" id="originFarmLatitude" name="originFarmLatitude" value="-38.239770"><br>
+                        Farm Longitude
+                        <br>
+                        <input type="text" id="originFarmLongitude" name="originFarmLongitude" value="144.341490"><br>
+                        <br> -->
+                        Original Farmer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="100"><br>
+                        Original Farmer Name
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Jerimiah Johnson" value="" size="100"><br>
+                        Farm Information
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Hidden Valley" value="" size="100"><br>
+                        Farm Latitude
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="-38.239770" value="" size="100"><br>
+                        Farm Longitude
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="144.341490" value="" size="100"><br>
+                        <div class=button-div>
+                            <button class="btn-plant" id="button-plant" type="button" data-id="2">Plant</button>
+                            <button class="btn-grow" id="button-grow" type="button" data-id="3">Grow</button>
+                            <button class="btn-harvest" id="button-harvest" type="button" data-id="1">Harvest</button>
+                        </div>
+                    </div>
+                <div class=form-break></div>
+                </div>
+            </div>
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Product Details</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        Product Description & Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes" name="productNotes" value="Best beans for Espresso" size="60"><br>
+                        Product Price (ETH)
+                        <br>
+                        <input class="form-control form-control-sm" type="number" id="productPrice" name="productPrice" placeholder="TBD" ><br> <!-- value=1><br> -->
+                        Processor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="processorID" name="processorID" placeholder="TBD" value="" size="50"><br>
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="distributorID" name="distributorID" placeholder="TBD" value="" size="50"><br>
+                        Retailer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="retailerID" name="retailerID" placeholder="TBD" value="" size="50"><br>
+                        Consumer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="consumerID" name="consumerID" placeholder="TBD" value="" size="50"><br>
+                        <!-- <div class=button-div>
+                            <button class="btn-buy" id="button" type="button" data-id="5">Buy</button>
+                            <button class="btn-ship" id="button" type="button" data-id="6">Ship</button>
+                            <button class="btn-receive" id="button" type="button" data-id="7">Receive</button>
+                            <button class="btn-purchase" id="button" type="button" data-id="8">Purchase</button>
+                        </div> -->
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processor and Distributor  Row -->
+        <hr>
+        <div class="row">
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Processor Functions</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        Original Farmer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="100"><br>
+                        Original Farmer Name
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Jerimiah Johnson" value="" size="100"><br>
+                        Farm Information
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Hidden Valley" value="" size="100"><br>
+                        Farm Latitude
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="-38.239770" value="" size="100"><br>
+                        Farm Longitude
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="144.341490" value="" size="100"><br>
+                        <div class=button-div>
+                            <button class="btn-collect" id="button-collect" type="button" data-id="1">Collect</button>
+                            <button class="btn-process" id="button-process" type="button" data-id="2">Process</button>
+                            <button class="btn-pack" id="button-pack" type="button" data-id="3">Pack</button>
+                            <button class="btn-forsale" id="button-forsale" type="button" data-id="4">ForSale</button>
+                        </div>
+                    </div>
+                <div class=form-break></div>
+                </div>
+            </div>
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Distributor Functions</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        Product Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes" name="productNotes" value="Best beans for Espresso" size="60"><br>
+                        Product Price (ETH)
+                        <br>
+                        <input class="form-control form-control-sm" type="number" id="productPrice" name="productPrice" placeholder=0 ><br> <!-- value=1><br> -->
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="distributorID" name="distributorID" value="0xf1b1bcd24dad92303dd9fe78be639f7bcf9c238d"
+                            size="50">
+                        <br>
+                        Retailer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="retailerID" name="retailerID" value="0x0fb2bfefd526966c87efa19f6693d50971763fc2"
+                            size="50"><br>
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="consumerID" name="consumerID" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
+                            size="50"><br>
+                        <div class=button-div>
+                            <button class="btn-buy-wholesale" id="button-buy-wholesale" type="button" data-id="5">Buy</button>
+                            <button class="btn-ship-wholesale" id="button" type="button" data-id="6">Ship</button>
+                        </div>
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Retailer and Consumer  Row -->
+        <hr>
+        <div class="row">
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Retailer Processes</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        Original Farmer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="100"><br>
+                        Original Farmer Name
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Jerimiah Johnson" value="" size="100"><br>
+                        Farm Information
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Hidden Valley" value="" size="100"><br>
+                        Farm Latitude
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="-38.239770" value="" size="100"><br>
+                        Farm Longitude
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="144.341490" value="" size="100"><br>
+                        <div class=button-div>
+                            <button class="btn-receive" id="button" type="button" data-id="7">Receive</button>
+                            <button class="btn-purchase" id="button" type="button" data-id="8">Purchase</button>
+
+                            <button class="btn-harvest" id="button" type="button" data-id="1">Harvest</button>
+                            <button class="btn-process" id="button" type="button" data-id="2">Process</button>
+                            <button class="btn-pack" id="button" type="button" data-id="3">Pack</button>
+                            <button class="btn-forsale" id="button" type="button" data-id="4">ForSale</button>
+                        </div>
+                    </div>
+                <div class=form-break></div>
+                </div>
+            </div>
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Consumer Interface</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        Product Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes" name="productNotes" value="Best beans for Espresso" size="60"><br>
+                        Product Price (ETH)
+                        <br>
+                        <input class="form-control form-control-sm" type="number" id="productPrice" name="productPrice" placeholder=0 ><br> <!-- value=1><br> -->
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="distributorID" name="distributorID" value="0xf1b1bcd24dad92303dd9fe78be639f7bcf9c238d"
+                            size="50">
+                        <br>
+                        Retailer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="retailerID" name="retailerID" value="0x0fb2bfefd526966c87efa19f6693d50971763fc2"
+                            size="50"><br>
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="consumerID" name="consumerID" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
+                            size="50"><br>
+                        <div class=button-div>
+                            <button class="btn-buy" id="button" type="button" data-id="5">Buy</button>
+                            <button class="btn-ship" id="button" type="button" data-id="6">Ship</button>
+                            <button class="btn-receive" id="button" type="button" data-id="7">Receive</button>
+                            <button class="btn-purchase" id="button" type="button" data-id="8">Purchase</button>
+                        </div>
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Fetch Functions Row -->
+        <hr>
+        <div class="row">
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Fetch Details 1</h2>
+                <div id="ftc-fetch1">
+                    <div class="form-group-sm">
+                        SKU
+                        <br>
+                        <input class="input-field form-control form-control-sm" type="number" id="sku" name="sku" value=1><br>
+                        UPC
+                        <br>
+                        <input class="input-field form-control form-control-sm" type="number" id="upc" name="upc" value=1><br>
+                        Current Owner ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="100"><br>
+                        Original Farmer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="100"><br>
+                        Original Farmer Name
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Jerimiah Johnson" value="" size="100"><br>
+                        Farm Information
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Hidden Valley" value="" size="100"><br>
+                        Farm Latitude
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="-38.239770" value="" size="100"><br>
+                        Farm Longitude
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="144.341490" value="" size="100"><br>
+                        Processor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="processorIDfetch" name="processorIDfetch" placeholder="TBD" value="" size="50"><br>
+                        <div class=button-div>
+                            <button class="btn-fetchOne" id="button" type="button" data-id="9">Fetch Data 1</button>
+                        </div>
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Fetch Details 2</h2>
+                <div id="ftc-fetch2">
+                    <div class="form-group-sm">
+                        SKU
+                        <br>
+                        <input class="input-field form-control form-control-sm" type="number" id="sku" name="sku" value=1 placeholder="5"><br>
+                        UPC
+                        <br>
+                        <input class="form-control form-control-sm" type="number" id="upc" name="upc" value=1><br>
+                        Product Identification
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="1000100" value="" size="100"><br>
+                        Product Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Best Beans for Espresso" value="" size="100"><br>
+                        Product Price (ETH)
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" value=0 size="100"><br>
+                        Product State
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="Pre-Planning Stage" value="" size="100"><br>
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="100"><br>
+                        Retailer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="100"><br>
+                        Consumer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
+                        <div class=button-div>
+                            <button class="btn-fetchTwo" id="button" type="button" data-id="10">Fetch Data 2</button>
+                        </div>
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <hr>
     <h2>Transaction History<span id="ftc-history"></span></h2>
     <div>
         <ul id="ftc-events">
@@ -102,7 +352,7 @@
         <hr>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <!-- <script src="js/web3.min.js"></script> -->
     <script src="js/truffle-contract.js"></script>
     <script src="js/app.js"></script>
