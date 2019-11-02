@@ -264,7 +264,10 @@ contract('SupplyChain', function(accounts) {
     })    
 
     // 6th Test
-    it("Testing smart contract function shipItem() that allows a distributor to ship coffee", async() => {
+    // it("Testing smart contract function shipItem() that allows a distributor to ship coffee", async() => {
+    // Sequence Diagram shows once the Distributor buyItem() completes, the FARMER and NOT the Distributor
+    // is the one that executes the shipItem() function
+    it("Testing smart contract function shipItem() that allows a FARMER to ship coffee", async() => {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
@@ -277,7 +280,7 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as Shipped by calling function shipItem()
-        await supplyChain.shipItem(upc, {from: distributorID})
+        await supplyChain.shipItem(upc, {from: originFarmerID}) // MUST BE {from: originFarmerID} no distributorID
             
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)

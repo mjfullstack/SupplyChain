@@ -90,8 +90,14 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
   }
   
   // Define a modifier that checks the price and refunds the remaining balance
+  // MWJ NOTE: This "_;" line AT THE BEGINNING, returns control to the calling contract.
+  // FROM: https://knowledge.udacity.com/questions/32834
+  // The logic here is correct because in line 3 ('_;'), you are telling the modifier 
+  // to execute the function (in this case, buyItem()) first before you do lines 4 to 6. 
+  // The buyer has been set before you reach line 6. 
+  // NOTE: **** This won't work if line 3 is moved to the end of this modifier. ****
   modifier checkValue(uint _upc) {
-    _;
+    _; // This structure gets the modifier to execute AFTER the function instead of usually first.
     uint _price = items[_upc].productPrice;
     uint amountToReturn = msg.value - _price;
     items[_upc].consumerID.transfer(amountToReturn);
@@ -277,7 +283,7 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     // Call modifier to check if upc has passed previous supply chain stage
     sold(_upc)
     // Call modifier to verify caller of this function
-    onlyDistributor
+    onlyFarmer
     {
     // Update the appropriate fields
     items[_upc].itemState = State.Shipped;    

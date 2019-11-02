@@ -1,7 +1,8 @@
 App = {
-    // web3Provider: `https://rinkeby.infura.io/v3/433751ea363f4bc0b73d7e32b7a805e6`,
-    web3Provider: `https://rinkeby.infura.io/433751ea363f4bc0b73d7e32b7a805e6`,
     // web3Provider: null,
+    // web3Provider: `https://rinkeby.infura.io/v3/433751ea363f4bc0b73d7e32b7a805e6`,
+    // web3Provider: `https://rinkeby.infura.io/433751ea363f4bc0b73d7e32b7a805e6`,
+    web3Provider: "https://rinkeby.infura.io/v3/5ea59fd3309b4d61b4ac56d6da00838a",
     contracts: {},
     emptyAddress: "0x0000000000000000000000000000000000000000",
     sku: 0,

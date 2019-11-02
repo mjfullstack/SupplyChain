@@ -5,7 +5,8 @@
 
 # testing
 .secret
-truffle-config_simple.js
+truffle-config-simple.js
+truffle-config-4network.js
 index_ORIG.html
 
 # production
