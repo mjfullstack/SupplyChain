@@ -46,7 +46,17 @@
         <hr class="horizontal-rule" >
         <hr><hr>
         <hr class="horizontal-rule" >
-        <h3>Test Area</h3>
+        <h3>Easy Input Section - Copy and Paste:</h3>
+            <ul>
+                <li>Origin Grower ID: <b>0x0D85295e9B0f87A506d3ce71B69F996e55746352</b></li>
+                <li>Origin Grower Name: <b>Michael Minion</b></li>
+                <li>Origin Farm Info: <b>Minion Valley</b></li>
+                <li>Farm Latitude: <b>-33.003</b></li>
+                <li>Farm Longitude: <b>166.543</b></li>
+                <li>Product Description: <b>Bananas for Nanas!</b></li>
+                <li>UPC: <b>5</b></li>
+            </ul>
+        
         <p id="ftc-item"></p>
         <hr class="horizontal-rule" >
         <hr><hr>
@@ -63,40 +73,40 @@
                         <!-- <p class="bold">Origin Grower ID</p> -->
                         Origin Grower ID
                         <br>
-                        <input class="form-control form-control-sm" type="text" id="originFarmerID1" name="originFarmerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="0x0D85295e9B0f87A506d3ce71B69F996e55746352" size="50"><br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmerID1" name="originFarmerID" placeholder="ex: 0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
                         Origin Grower Name
                         <br>
-                        <input class="form-control form-control-sm" type="text" id="originFarmName1" name="originFarmName" placeholder="Jerimiah Johnson" value="Michael Minion" size="50"><br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmName1" name="originFarmName" placeholder="ex: Jerimiah Johnson" value="" size="50"><br>
                         Origin Farm Information
                         <br>
-                        <input class="form-control form-control-sm" type="text" id="originFarmInformation1" name="originFarmInformation" placeholder="Hidden Valley" value="Minion Valley" size="50"><br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmInformation1" name="originFarmInformation" placeholder="ex: Hidden Valley" value="" size="50"><br>
                         <!-- Make container for Farm GPS coordinates on one line -->
                         <div class="container">
                             <div class="row">
                                 <div class="col col-md-6 col-sm-12 col-xs-12">
                                     Farm Latitude
                                     <br>
-                                    <input class="form-control form-control-sm" type="text" id="originFarmLatitude1" name="originFarmLatitude" placeholder="-38.239770" value="22" size="50"><br>
+                                    <input class="form-control form-control-sm" type="text" id="originFarmLatitude1" name="originFarmLatitude" placeholder="ex: -38.239770" value="" size="50"><br>
                                 </div>
                                 <div class="col col-md-6 col-sm-12 col-xs-12">
                                     Farm Longitude
                                     <br>
-                                    <input class="form-control form-control-sm" type="text" id="originFarmLongitude1" name="originFarmLongitude" placeholder="144.341490" value="-44" size="50"><br>
+                                    <input class="form-control form-control-sm" type="text" id="originFarmLongitude1" name="originFarmLongitude" placeholder="ex: 144.341490" value="" size="50"><br>
                                 </div>
                             </div>
                         </div>
                         Product Description & Notes
                         <br>
-                        <input class="form-control form-control-sm" type="text" id="productNotes1" name="productNotes" placeholder="Best Beans for Espresso" value="Beans Baby Beans!" size="60"><br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes1" name="productNotes" placeholder="ex: Best Beans for Espresso" value="" size="60"><br>
                         <div class=button-div>
                             <button class="btn-lg btn-plant" id="button-plant" type="button" data-id="11">Plant</button>
                             <button class="btn-lg btn-grow" id="button-grow" type="button" data-id="12">Grow</button>
                             <button class="btn-lg btn-harvest" id="button-harvest" type="button" data-id="1">Harvest</button>
                         </div>
-                        <br><br>
+                        <!-- <br><br>
                         <textarea class="form-control" id="ftc-item1" rows="10"></textarea>
                         <p id="ftc-item1p"></p>
-                        <p id="ftc-item1p1"></p>
+                        <p id="ftc-item1p1"></p> -->
                     </div>
                 <div class=form-break></div>
                 </div>
@@ -111,12 +121,12 @@
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     SKU
                                     <br>
-                                    <input class="input-field form-control form-control-sm" type="number" id="sku1" name="sku" placeholder="--" value="2"><br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="sku1" name="sku" placeholder="--" value=""><br>
                                 </div>
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     UPC
                                     <br>
-                                    <input class="input-field form-control form-control-sm" type="number" id="upc1" name="upc" placeholder="--" value="1"><br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc1" name="upc" placeholder="ex: 3" value=""><br>
                                 </div>
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     Product ID
@@ -131,7 +141,7 @@
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     Product Price (ETH)
                                     <br>
-                                    <input class="form-control form-control-sm" type="number" id="productPrice1" name="productPrice" value=1><br>
+                                    <input class="form-control form-control-sm" type="number" id="productPrice1" name="productPrice" placeholder="TBD" value=><br>
                                 </div>
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     Product State
@@ -143,7 +153,7 @@
                         </div>
                         Processor ID
                         <br>
-                        <input class="form-control form-control-sm" type="text" id="processorID1" name="processorID" placeholder="For Future Development" value="" size="50"><br>
+                        <input class="form-control form-control-sm" type="text" id="processorID1" name="processorID" placeholder="TBD" value="" size="50"><br>
                         Distributor ID
                         <br>
                         <input class="form-control form-control-sm" type="text" id="distributorID1" name="distributorID" placeholder="TBD" value="" size="50"><br>
@@ -153,10 +163,10 @@
                         Consumer ID
                         <br>
                         <input class="form-control form-control-sm" type="text" id="consumerID1" name="consumerID" placeholder="TBD" value="" size="50"><br>
-                        <br><br>
+                        <!-- <br><br>
                         <textarea class="form-control" id="ftc-item2" rows="10"></textarea>
                         <p id="ftc-item2p"></p>
-                        <p id="ftc-item2p2"></p>
+                        <p id="ftc-item2p2"></p> -->
                     </div>
                     <div class=form-break></div>
                 </div>

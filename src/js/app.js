@@ -317,25 +317,14 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         /************** SAVE FOR TESTING *****************/
-                // Testing DOM Manipulation
-                const testStringDOM = 
-                App.sku+
-                App.upc+
-                App.ownerID+ 
-                App.originFarmerID+ 
-                App.originFarmName+ 
-                App.originFarmInformation+ 
-                App.originFarmLatitude+ 
-                App.originFarmLongitude+ 
-                App.productNotes+ 
-                App.productPrice+ 
-                App.distributorID+ 
-                App.retailerID+ 
-                App.consumerID;
-        
-                console.log(`plantItem testStringDOM = ${testStringDOM}`)
+        // TEMP: Set values that will eventually be returned in 'result'
+        // When they are, we'll place the values received into the form on the page.
+        // SET the values temporarily...
+        App.localItemState = "Planted";
+        // PLACE the values on the page...
+        $("#productState1").val(`${App.localItemState}`); // MWJ - Should work
+        $("#ftc-item").text(`plantItem ftc-item TEXT are here! App.localItemState = ${App.localItemState}`); // MWJ - Should work
         /************** SAVE FOR TESTING *****************/
-        
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.plantItem(
                 App.upc, 
