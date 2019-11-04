@@ -4,105 +4,558 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fair Trade Coffee</title>
+    <title>Walmart Supplychain</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- Bootstrap CSS CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <!-- jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>    
+
+    <!-- Bootstrap JS CDN -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> --> <!-- *** NOTE: SLIM DOESN'T AJAX Per StackOverflow***-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="container">
-        <h1 style="text-align: center;">Fair Trade Coffee</h1>
-        <hr>
-        <p style="text-align: center;">Prove the authenticity of coffee using the Ethereum blockchain.</p>
-    </div>
-
-    <div class="container">
-
-    <div id="ftc-harvest">
-        <h2>Product Overview</h2>
-        <div class="form-group">
-            SKU
-            <br>
-            <input class="input-field" type="number" id="sku" name="sku" value=1><br>
-            UPC
-            <br>
-            <input type="number" id="upc" name="upc" value=1><br>
-            Current Owner ID
-            <br>
-            <input type="text" id="ownerID" name="ownerID" value="0x963865f57804b38459dd4b2da2f760211a200438" size="50"><br>
-            <div class=button-div>
-                <button class="btn-fetchOne" id="button" type="button" data-id="9">Fetch Data 1</button>
-                <button class="btn-fetchTwo" id="button" type="button" data-id="10">Fetch Data 2</button>
+    <!-- Jumbotron -->
+    <div class="container-full-bg">  <!--  increased the jumbotron width -->
+        <div class="jumbotron">
+            <div class="container ftc-intro">
+                <h1 style="text-align: center;">Walmart Food Supply Chain</h1>
+                <hr>
+                <p style="text-align: center;">Prove the authenticity and provide traceability for WALMART food sources using the Ethereum blockchain.</p>
             </div>
         </div>
-        <div class=form-break></div>
-        <h2>Farm Details</h2>
-        <div class="form-group">
-            Farmer ID
-            <br>
-            <input type="text" id="originFarmerID" name="originFarmerID" value="0x99c289eb2aacec289631a5ddf62cf27a63d4494f"
-                size="50"><br>
-            Farm Name
-            <br>
-            <input type="text" id="originFarmName" name="originFarmName" value="John Doe"><br>
-            Farm Information
-            <br>
-            <input type="text" id="originFarmInformation" name="originFarmInformation" value="Yarra Valley"><br>
-            Farm Latitude
-            <br>
-            <input type="text" id="originFarmLatitude" name="originFarmLatitude" value="-38.239770"><br>
-            Farm Longitude
-            <br>
-            <input type="text" id="originFarmLongitude" name="originFarmLongitude" value="144.341490"><br>
-            <br>
-            <button class="btn-harvest" id="button" type="button" data-id="1">Harvest</button>
-            <button class="btn-process" id="button" type="button" data-id="2">Process</button>
-            <button class="btn-pack" id="button" type="button" data-id="3">Pack</button>
-            <button class="btn-forsale" id="button" type="button" data-id="4">ForSale</button>
-        </div>
-        <div class=form-break></div>
-        <h2>Product Details</h2>
-        <div class="form-group">
-            Product Notes
-            <br>
-            <input type="text" id="productNotes" name="productNotes" value="Best beans for Espresso" size="60"><br>
-            Product Price
-            <br>
-            <input type="number" id="productPrice" name="productPrice" value=1>ETH<br>
-            Distributor ID
-            <br>
-            <input type="text" id="distributorID" name="distributorID" value="0xf1b1bcd24dad92303dd9fe78be639f7bcf9c238d"
-                size="50">
-            <br>
-            Retailer ID
-            <br>
-            <input type="text" id="retailerID" name="retailerID" value="0x0fb2bfefd526966c87efa19f6693d50971763fc2"
-                size="50"><br>
-            Distributor ID
-            <br>
-            <input type="text" id="consumerID" name="consumerID" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
-                size="50"><br>
-            <br>
-            <button class="btn-buy" id="button" type="button" data-id="5">Buy</button>
-            <button class="btn-ship" id="button" type="button" data-id="6">Ship</button>
-            <button class="btn-receive" id="button" type="button" data-id="7">Receive</button>
-            <button class="btn-purchase" id="button" type="button" data-id="8">Purchase</button>
-        </div>
-        <div class=form-break></div>
-        <hr>
-    </div>
     </div>
 
-    <h2>Transaction History<span id="ftc-history"></span></h2>
-    <div>
-        <ul id="ftc-events">
-            <!-- Events will appear here from app.js -->
-        </ul>
-        <br>
+    <div class="container">
+        <h1 class="text-center">Product Overview</h1>
         <hr>
+        <p></p>
+
+        <hr class="horizontal-rule" >
+        <hr><hr>
+        <hr class="horizontal-rule" >
+        <h3>Test Area</h3>
+        <p id="ftc-item"></p>
+        <hr class="horizontal-rule" >
+        <hr><hr>
+        <hr class="horizontal-rule" >
+        <br><br>
+
+
+        <!-- Grower and Product Details Row -->
+        <div class="row">
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Grower Data Input & Processes</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        <!-- <p class="bold">Origin Grower ID</p> -->
+                        Origin Grower ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmerID1" name="originFarmerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="0x0D85295e9B0f87A506d3ce71B69F996e55746352" size="50"><br>
+                        Origin Grower Name
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmName1" name="originFarmName" placeholder="Jerimiah Johnson" value="Michael Minion" size="50"><br>
+                        Origin Farm Information
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmInformation1" name="originFarmInformation" placeholder="Hidden Valley" value="Minion Valley" size="50"><br>
+                        <!-- Make container for Farm GPS coordinates on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-6 col-sm-12 col-xs-12">
+                                    Farm Latitude
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="originFarmLatitude1" name="originFarmLatitude" placeholder="-38.239770" value="22" size="50"><br>
+                                </div>
+                                <div class="col col-md-6 col-sm-12 col-xs-12">
+                                    Farm Longitude
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="originFarmLongitude1" name="originFarmLongitude" placeholder="144.341490" value="-44" size="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        Product Description & Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes1" name="productNotes" placeholder="Best Beans for Espresso" value="Beans Baby Beans!" size="60"><br>
+                        <div class=button-div>
+                            <button class="btn-lg btn-plant" id="button-plant" type="button" data-id="11">Plant</button>
+                            <button class="btn-lg btn-grow" id="button-grow" type="button" data-id="12">Grow</button>
+                            <button class="btn-lg btn-harvest" id="button-harvest" type="button" data-id="1">Harvest</button>
+                        </div>
+                        <br><br>
+                        <textarea class="form-control" id="ftc-item1" rows="10"></textarea>
+                        <p id="ftc-item1p"></p>
+                        <p id="ftc-item1p1"></p>
+                    </div>
+                <div class=form-break></div>
+                </div>
+            </div>
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Product Details</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        <!-- Make container for SKU, UPC, and Product ID on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    SKU
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="sku1" name="sku" placeholder="--" value="2"><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    UPC
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc1" name="upc" placeholder="--" value="1"><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product ID
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productID1" name="productID" placeholder="-000-00" value="" size="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Make container for Product and State on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product Price (ETH)
+                                    <br>
+                                    <input class="form-control form-control-sm" type="number" id="productPrice1" name="productPrice" value=1><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product State
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productState1" name="productState" placeholder="Pre-Planning Stage" value="" size="50"><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12"></div>
+                            </div>
+                        </div>
+                        Processor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="processorID1" name="processorID" placeholder="For Future Development" value="" size="50"><br>
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="distributorID1" name="distributorID" placeholder="TBD" value="" size="50"><br>
+                        Retailer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="retailerID1" name="retailerID" placeholder="TBD" value="" size="50"><br>
+                        Consumer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="consumerID1" name="consumerID" placeholder="TBD" value="" size="50"><br>
+                        <br><br>
+                        <textarea class="form-control" id="ftc-item2" rows="10"></textarea>
+                        <p id="ftc-item2p"></p>
+                        <p id="ftc-item2p2"></p>
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processor and Distributor  Row -->
+        <hr>
+        <div class="row">
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Processor Functions</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        Processor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="processorID2" name="processorID" placeholder="For Future Development" value="" size="50"><br>
+                        <!-- Make container for SKU, UPC, and Product ID on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    SKU
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="sku2" name="sku" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    UPC
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc2" name="upc" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product ID
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productID2" name="productID" placeholder="-000-00" value="" size="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Make container for Product and State on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product Price (ETH)
+                                    <br>
+                                    <input class="form-control form-control-sm" type="number" id="productPrice2" name="productPrice" value=1><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product State
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productState2" name="productState" placeholder="Pre-Planning Stage" value="" size="50"><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12"></div>
+                            </div>
+                        </div>
+                        Product Description & Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes2" name="productNotes" value="Best Beans for Espresso" size="60"><br>
+                        Origin Grower ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmerID2" name="originFarmerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
+                        <div class=button-div>
+                            <button class="btn-lg btn-collect" id="button-collect" type="button" data-id="13">Collect</button>
+                            <button class="btn-lg btn-process" id="button-process" type="button" data-id="2">Process</button>
+                            <button class="btn-lg btn-pack" id="button-pack" type="button" data-id="3">Pack</button>
+                            <button class="btn-lg btn-forsale" id="button-forsale" type="button" data-id="4">ForSale</button>
+                            <button class="btn-lg btn-ship" id="button" type="button" data-id="6">Ship</button>
+                        </div>
+                    </div>
+                <div class=form-break></div>
+                </div>
+            </div>
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Distributor Functions</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="distributorID3" name="distributorID" placeholder="TBD" value="" size="50"><br>
+                        <!-- Make container for SKU, UPC, and Product ID on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    SKU
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="sku3" name="sku" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    UPC
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc3" name="upc" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product ID
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productID3" name="productID" placeholder="-000-00" value="" size="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Make container for Product and State on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product Price (ETH)
+                                    <br>
+                                    <input class="form-control form-control-sm" type="number" id="productPrice3" name="productPrice" value=1><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product State
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productState3" name="productState" placeholder="Pre-Planning Stage" value="" size="50"><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12"></div>
+                            </div>
+                        </div>
+                        Product Description & Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes3" name="productNotes" value="Best Beans for Espresso" size="60"><br>
+                        Retailer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="retailerID3" name="retailerID" placeholder="TBD" value=""size="50"><br>
+                        <div class=button-div>
+                            <button class="btn-lg btn-buy-wholesale btn btn-primary disabled" id="button-buy-wholesale" type="button" data-id="5">Buy Wholesale</button>
+                            <!-- <button class="btn-lg btn-ship-wholesale btn btn-primary active" id="button" type="button" data-id="6">Ship</button> -->
+                        </div>
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Retailer and Consumer  Row -->
+        <hr>
+        <div class="row">
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Retailer Processes</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        Retailer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="retailerID4" name="retailerID" placeholder="TBD" value=""size="50"><br>
+                        <!-- Make container for SKU, UPC, and Product ID on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    SKU
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="sku4" name="sku" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    UPC
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc4" name="upc" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product ID
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productID4" name="productID" placeholder="-000-00" value="" size="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Make container for Product and State on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product Price (ETH)
+                                    <br>
+                                    <input class="form-control form-control-sm" type="number" id="productPrice4" name="productPrice" value=1><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product State
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productState4" name="productState" placeholder="Pre-Planning Stage" value="" size="50"><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12"></div>
+                            </div>
+                        </div>
+                        Product Description & Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes4" name="productNotes" value="Best Beans for Espresso" size="60"><br>
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="distributorID4" name="distributorID" placeholder="TBD" value="" size="50"><br>
+                        <div class=button-div>
+                            <button class="btn-lg btn-order" id="button-order" type="button" data-id="14">Order Wholesale</button>
+                            <button class="btn-lg btn-receive-wholesale" id="button-receive-wholesale" type="button" data-id="7">Receive Wholesale</button>
+                            <button class="btn-lg btn-stock-shelf" id="button-stock-shelf" type="button" data-id="15">Stock Shelves</button>
+                        </div>
+                    </div>
+                <div class=form-break></div>
+                </div>
+            </div>
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Consumer Interface</h2>
+                <div id="farm-func">
+                    <div class="form-group-sm">
+                        Consumer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="consumerID5" name="consumerID" placeholder="0x5d777e9127b28fb119e81a6304278a0a21bef1c4" value="" size="50"><br>
+                        <!-- Make container for SKU, UPC, and Product ID on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    SKU
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="sku5" name="sku" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    UPC
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc5" name="upc" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product ID
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productID5" name="productID" placeholder="-000-00" value="" size="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Make container for Product and State on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product Price (ETH)
+                                    <br>
+                                    <input class="form-control form-control-sm" type="number" id="productPrice5" name="productPrice" value=1><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product State
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productState5" name="productState" placeholder="Pre-Planning Stage" value="" size="50"><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12"></div>
+                            </div>
+                        </div>
+                        Product Description & Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes5" name="productNotes" value="Best Beans for Espresso" size="60"><br>
+                        Retailer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="retailerID5" name="retailerID" placeholder="TBD" value=""size="50"><br>
+                        <div class=button-div>
+                            <button class="btn-lg btn-buy-instore" id="button" type="button" data-id="8">Purchase In Store</button>
+                            <button class="btn-lg btn-buy-online" id="button" type="button" data-id="16">Purchase Online</button>
+                            <button class="btn-lg btn-receive-retail" id="button" type="button" data-id="17">Received Retail</button>
+                        </div>
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+    
+        <!-- Fetch Functions Row -->
+        <hr class="horizontal-rule" >
+        <hr><hr>
+        <hr class="horizontal-rule" >
+        <div class="row">
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Fetch Details 1</h2>
+                <div id="ftc-fetch1">
+                    <div class="form-group-sm">
+                        <!-- Make container for SKU and UPC on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-6 col-sm-12 col-xs-12">
+                                    SKU
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="sku6" name="sku" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-6 col-sm-12 col-xs-12">
+                                    UPC
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc6" name="upc" placeholder="--" value=1><br>
+                                </div>
+                            </div>
+                        </div>
+                        Current Owner ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
+                        Origin Grower ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmerID6" name="originFarmerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
+                        Origin Grower Name
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmName6" name="originFarmName" placeholder="Jerimiah Johnson" value="" size="50"><br>
+                        Origin Farm Information
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmInformation6" name="originFarmInformation" placeholder="Hidden Valley" value="" size="50"><br>
+                        <!-- Make container for Farm GPS coordinates on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-6 col-sm-12 col-xs-12">
+                                    Farm Latitude
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="originFarmLatitude6" name="originFarmLatitude" placeholder="-38.239770" value="" size="50"><br>
+                                </div>
+                                <div class="col col-md-6 col-sm-12 col-xs-12">
+                                    Farm Longitude
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="originFarmLongitude6" name="originFarmLongitude" placeholder="144.341490" value="" size="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        Processor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="processorIDfetch" name="processorIDfetch" placeholder="For Future Development" value="" size="50"><br>
+                        <div class=button-div>
+                            <button class="btn-lg btn-fetchOne" id="button" type="button" data-id="9">Fetch Data 1</button>
+                        </div>
+                        <!-- <br><br>
+                        <textarea class="form-control" id="ftc-item1" rows="10"></textarea>
+                        <p id="ftc-item1p"></p>
+                        <p id="ftc-item1p1"></p> -->
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+            <div class="col col-md-6 col-sm-12 col-xs-12">
+                <h2>Fetch Details 2</h2>
+                <div id="ftc-fetch2">
+                    <div class="form-group-sm">
+                        <!-- Make container for SKU, UPC, and Product ID on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    SKU
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="sku7" name="sku" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    UPC
+                                    <br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc7" name="upc" placeholder="--" value=""><br>
+                                </div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Product ID
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productID7" name="productID" placeholder="-000-00" value="" size="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        Product Description & Notes
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="productNotes7" name="productNotes" placeholder="Best Beans for Espresso" value="" size="50"><br>
+                        <!-- Make container for Product and State on one line -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-md-6 col-sm-12 col-xs-12">
+                                    Product Price (ETH)
+                                    <br>
+                                    <input class="form-control form-control-sm" type="number" id="productPrice7" name="productPrice" value=1><br>
+                                </div>
+                                <div class="col col-md-6 col-sm-12 col-xs-12">
+                                    Product State
+                                    <br>
+                                    <input class="form-control form-control-sm" type="text" id="productState7" name="ownerID" placeholder="Pre-Planning Stage" value="" size="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        Distributor ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="distributorID7" name="distributorID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
+                        Retailer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="retailerID7" name="retailerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
+                        Consumer ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="consumerID7" name="consumerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
+                        <br><br><br>
+                        <div class=button-div>
+                            <button class="btn-lg btn-fetchTwo" id="button" type="button" data-id="10">Fetch Data 2</button>
+                        </div>
+                        <!-- <br><br>
+                        <textarea class="form-control" id="ftc-item2" rows="10"></textarea>
+                        <p id="ftc-item2p"></p>
+                        <p id="ftc-item2p2"></p> -->
+                    </div>
+                    <div class=form-break></div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <hr class="horizontal-rule" >
+        <hr><hr>
+        <hr class="horizontal-rule" >
+        <h2>Transaction History<span id="ftc-history"></span></h2>
+        <div>
+            <ul id="ftc-events">
+                <!-- Events will appear here from app.js -->
+            </ul>
+            <br>
+        </div>
+        <hr class="horizontal-rule" >
+        <hr><hr>
+        <hr class="horizontal-rule" >
+        <!-- <br><br>
+        <h3>Test Area</h3>
+        <p id="ftc-item"></p> -->
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <!-- <script src="js/web3.min.js"></script> -->
     <script src="js/truffle-contract.js"></script>
     <script src="js/app.js"></script>
