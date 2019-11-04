@@ -21,9 +21,10 @@ App = {
     distributorID: "0x0000000000000000000000000000000000000000",
     retailerID: "0x0000000000000000000000000000000000000000",
     consumerID: "0x0000000000000000000000000000000000000000",
+    localItemState: "unPlanted",
 
     init: async function () {
-        App.readFormN(1);
+        App.readFormN(11);
         /// Setup access to blockchain
         return await App.initWeb3();
     },
@@ -56,33 +57,51 @@ App = {
             App.productPrice, 
             App.distributorID, 
             App.retailerID, 
-            App.consumerID
+            App.consumerID,
+            App.localItemState
         );
     },
 
     readFormN: function (_procId) {
         let _n;
         switch(_procId) {
-            case 11, 12, 1: // grower
+            case 11: // grower
+            case 12: // grower
+            case 1: // grower
                 _n = 1;
+                console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 13, 2, 3, 4, 6: // processor
+            case 13: // processor
+            case 2: // processor
+            case 3: // processor
+            case 4: // processor
+            case 6: // processor
                 _n = 2;
+                console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
             case 5: // distributor
                 _n = 3;
+                console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 14, 7, 15: // retailer
+            case 14: // retailer
+            case 7: // retailer
+            case 15: // retailer
                 _n = 4;
+                console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 8, 16, 17: // consumer
+            case 8: // consumer
+            case 16: // consumer
+            case 17: // consumer
                 _n = 5;
+                console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
             case 9: // fetch 1
                 _n = 6;
+                console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
             case 10: // fetch 2
                 _n = 7;
+                console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
         }
 
@@ -114,7 +133,8 @@ App = {
             App.productPrice, 
             App.distributorID, 
             App.retailerID, 
-            App.consumerID
+            App.consumerID,
+            App.localItemState
         );
 
         /************** SAVE FOR TESTING *****************/
@@ -132,7 +152,8 @@ App = {
         App.productPrice+ 
         App.distributorID+ 
         App.retailerID+ 
-        App.consumerID;
+        App.consumerID+
+        App.localItemState;
 
         console.log(`testStringDOM = ${testStringDOM}`)
         $("#ftc-item2p2").text(`readFormN ftc-item2p2 TEXT are here! ${testStringDOM}`); // MWJ
@@ -218,34 +239,44 @@ App = {
 
         switch(processId) {
             case 1:
+                console.log(`processId = ${processId}`);
                 return await App.harvestItem(event);
                 break;
             case 2:
+                console.log(`processId = ${processId}`);
                 return await App.processItem(event);
                 break;
             case 3:
+                console.log(`processId = ${processId}`);
                 return await App.packItem(event);
                 break;
             case 4:
+                console.log(`processId = ${processId}`);
                 return await App.sellItem(event);
                 break;
             case 5:
+                console.log(`processId = ${processId}`);
                 return await App.buyItem(event);
                 break;
             case 6:
+                console.log(`processId = ${processId}`);
                 return await App.shipItem(event);
                 break;
             case 7:
+                console.log(`processId = ${processId}`);
                 return await App.receiveItem(event);
                 break;
             case 8: // purchaseInstoreItem() INSTORE
-                return await App.purchaseInstoreItem(event);
+            console.log(`processId = ${processId}`);
+            return await App.purchaseInstoreItem(event);
                 break;
             case 9: // fetch 1
-                return await App.fetchItemBufferOne(event);
+            console.log(`processId = ${processId}`);
+            return await App.fetchItemBufferOne(event);
                 break;
             case 10: // fetch 2
-                return await App.fetchItemBufferTwo(event);
+            console.log(`processId = ${processId}`);
+            return await App.fetchItemBufferTwo(event);
                 break;
             case 11: // plantItem()
                 console.log(`processId = ${processId}`);
@@ -285,6 +316,26 @@ App = {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
+        /************** SAVE FOR TESTING *****************/
+                // Testing DOM Manipulation
+                const testStringDOM = 
+                App.sku+
+                App.upc+
+                App.ownerID+ 
+                App.originFarmerID+ 
+                App.originFarmName+ 
+                App.originFarmInformation+ 
+                App.originFarmLatitude+ 
+                App.originFarmLongitude+ 
+                App.productNotes+ 
+                App.productPrice+ 
+                App.distributorID+ 
+                App.retailerID+ 
+                App.consumerID;
+        
+                console.log(`plantItem testStringDOM = ${testStringDOM}`)
+        /************** SAVE FOR TESTING *****************/
+        
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.plantItem(
                 App.upc, 
@@ -294,7 +345,7 @@ App = {
                 App.originFarmLatitude, 
                 App.originFarmLongitude, 
                 App.productNotes
-                // {from: App.metamaskAccountID}
+                // {from: App.metamaskAccountID} // Invalid # of args to Solidity function
             );
         }).then(function(result) {
             $("#ftc-item").text(`plantItem, ${result}`);
