@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fair Trade Coffee</title>
+    <title>Walmart Supplychain</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -31,9 +31,9 @@
     <div class="container-full-bg">  <!--  increased the jumbotron width -->
         <div class="jumbotron">
             <div class="container ftc-intro">
-                <h1 style="text-align: center;">Fair Trade Coffee</h1>
+                <h1 style="text-align: center;">Walmart Food Supply Chain</h1>
                 <hr>
-                <p style="text-align: center;">Prove the authenticity of coffee using the Ethereum blockchain.</p>
+                <p style="text-align: center;">Prove the authenticity and provide traceability for WALMART food sources using the Ethereum blockchain.</p>
             </div>
         </div>
     </div>
@@ -43,23 +43,34 @@
         <hr>
         <p></p>
 
-        <!-- Farmer and Product Details Row -->
+        <hr class="horizontal-rule" >
+        <hr><hr>
+        <hr class="horizontal-rule" >
+        <h3>Test Area</h3>
+        <p id="ftc-item"></p>
+        <hr class="horizontal-rule" >
+        <hr><hr>
+        <hr class="horizontal-rule" >
+        <br><br>
+
+
+        <!-- Grower and Product Details Row -->
         <div class="row">
             <div class="col col-md-6 col-sm-12 col-xs-12">
-                <h2>Farmer Data Input & Processes</h2>
+                <h2>Grower Data Input & Processes</h2>
                 <div id="farm-func">
                     <div class="form-group-sm">
-                        <!-- <p class="bold">Origin Farmer ID</p> -->
-                        Origin Farmer ID
+                        <!-- <p class="bold">Origin Grower ID</p> -->
+                        Origin Grower ID
                         <br>
                         <input class="form-control form-control-sm" type="text" id="originFarmerID1" name="originFarmerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="0x0D85295e9B0f87A506d3ce71B69F996e55746352" size="50"><br>
-                        Origin Farmer Name
+                        Origin Grower Name
                         <br>
                         <input class="form-control form-control-sm" type="text" id="originFarmName1" name="originFarmName" placeholder="Jerimiah Johnson" value="Michael Minion" size="50"><br>
                         Origin Farm Information
                         <br>
                         <input class="form-control form-control-sm" type="text" id="originFarmInformation1" name="originFarmInformation" placeholder="Hidden Valley" value="Minion Valley" size="50"><br>
-                        <!-- Make container for Farmer GPS coordinates on one line -->
+                        <!-- Make container for Farm GPS coordinates on one line -->
                         <div class="container">
                             <div class="row">
                                 <div class="col col-md-6 col-sm-12 col-xs-12">
@@ -82,6 +93,10 @@
                             <button class="btn-lg btn-grow" id="button-grow" type="button" data-id="12">Grow</button>
                             <button class="btn-lg btn-harvest" id="button-harvest" type="button" data-id="1">Harvest</button>
                         </div>
+                        <br><br>
+                        <textarea class="form-control" id="ftc-item1" rows="10"></textarea>
+                        <p id="ftc-item1p"></p>
+                        <p id="ftc-item1p1"></p>
                     </div>
                 <div class=form-break></div>
                 </div>
@@ -138,6 +153,10 @@
                         Consumer ID
                         <br>
                         <input class="form-control form-control-sm" type="text" id="consumerID1" name="consumerID" placeholder="TBD" value="" size="50"><br>
+                        <br><br>
+                        <textarea class="form-control" id="ftc-item2" rows="10"></textarea>
+                        <p id="ftc-item2p"></p>
+                        <p id="ftc-item2p2"></p>
                     </div>
                     <div class=form-break></div>
                 </div>
@@ -193,7 +212,7 @@
                         Product Description & Notes
                         <br>
                         <input class="form-control form-control-sm" type="text" id="productNotes2" name="productNotes" value="Best Beans for Espresso" size="60"><br>
-                        Origin Farmer ID
+                        Origin Grower ID
                         <br>
                         <input class="form-control form-control-sm" type="text" id="originFarmerID2" name="originFarmerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
                         <div class=button-div>
@@ -415,16 +434,16 @@
                         Current Owner ID
                         <br>
                         <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
-                        Origin Farmer ID
+                        Origin Grower ID
                         <br>
                         <input class="form-control form-control-sm" type="text" id="originFarmerID6" name="originFarmerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50"><br>
-                        Origin Farmer Name
+                        Origin Grower Name
                         <br>
                         <input class="form-control form-control-sm" type="text" id="originFarmName6" name="originFarmName" placeholder="Jerimiah Johnson" value="" size="50"><br>
                         Origin Farm Information
                         <br>
                         <input class="form-control form-control-sm" type="text" id="originFarmInformation6" name="originFarmInformation" placeholder="Hidden Valley" value="" size="50"><br>
-                        <!-- Make container for Farmer GPS coordinates on one line -->
+                        <!-- Make container for Farm GPS coordinates on one line -->
                         <div class="container">
                             <div class="row">
                                 <div class="col col-md-6 col-sm-12 col-xs-12">
@@ -445,8 +464,10 @@
                         <div class=button-div>
                             <button class="btn-lg btn-fetchOne" id="button" type="button" data-id="9">Fetch Data 1</button>
                         </div>
-                        <br><br>
+                        <!-- <br><br>
                         <textarea class="form-control" id="ftc-item1" rows="10"></textarea>
+                        <p id="ftc-item1p"></p>
+                        <p id="ftc-item1p1"></p> -->
                     </div>
                     <div class=form-break></div>
                 </div>
@@ -506,8 +527,10 @@
                         <div class=button-div>
                             <button class="btn-lg btn-fetchTwo" id="button" type="button" data-id="10">Fetch Data 2</button>
                         </div>
-                        <br><br>
+                        <!-- <br><br>
                         <textarea class="form-control" id="ftc-item2" rows="10"></textarea>
+                        <p id="ftc-item2p"></p>
+                        <p id="ftc-item2p2"></p> -->
                     </div>
                     <div class=form-break></div>
                 </div>
@@ -527,6 +550,9 @@
         <hr class="horizontal-rule" >
         <hr><hr>
         <hr class="horizontal-rule" >
+        <!-- <br><br>
+        <h3>Test Area</h3>
+        <p id="ftc-item"></p> -->
     </div>
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->

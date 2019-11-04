@@ -4,7 +4,7 @@ Udacity Blockchain Supply Chain Project 6
 ## Project 6 - Part A
 See UML Directory for the four diagrams
 
-## Deployment Details 
+## Deployment Details - Coffee Fair Trade
 ### First Deployment:
 From Etherscan:
 
@@ -38,6 +38,21 @@ Contract:
 
 TxnHash:
 0x4c347729783678aae37780bf31a1f1dcc94c57e5c54b3a8e1adf39a85b8ec471
+
+
+
+## Deployment Details - WALMART Food Supplychain
+### Fourth Deployment: 
+From Etherscan:
+
+Address:
+0x0d85295e9b0f87a506d3ce71b69f996e55746352
+
+Contract:
+0x728f2d63c3107540dfc6da5ec0aa97178ee7c21b
+
+TxnHash:
+0x9bbd44ecd8ddf343e7191d08d9e6dfe7c361344ea89cffc814d001440e3716cb
 
 
 
