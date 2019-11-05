@@ -18,10 +18,11 @@ App = {
     productID: null,
     productNotes: null,
     productPrice: 0,
+    processorID: "0x0000000000000000000000000000000000000000",
     distributorID: "0x0000000000000000000000000000000000000000",
     retailerID: "0x0000000000000000000000000000000000000000",
     consumerID: "0x0000000000000000000000000000000000000000",
-    localItemState: "unPlanted",
+    localItemState: "unPlanted", // MWJ Temporary
 
     init: async function () {
         App.readFormN(11);
@@ -40,6 +41,7 @@ App = {
         App.originFarmLongitude = $("#originFarmLongitude").val();
         App.productNotes = $("#productNotes").val();
         App.productPrice = $("#productPrice").val();
+        App.processorID = $("#processorID").val();
         App.distributorID = $("#distributorID").val();
         App.retailerID = $("#retailerID").val();
         App.consumerID = $("#consumerID").val();
@@ -116,6 +118,7 @@ App = {
         App.originFarmLongitude = $("#originFarmLongitude"+_n).val();
         App.productNotes = $("#productNotes"+_n).val();
         App.productPrice = $("#productPrice"+_n).val();
+        App.processorID = $("#processorID"+_n).val();
         App.distributorID = $("#distributorID"+_n).val();
         App.retailerID = $("#retailerID"+_n).val();
         App.consumerID = $("#consumerID"+_n).val();
@@ -131,6 +134,7 @@ App = {
             App.originFarmLongitude, 
             App.productNotes, 
             App.productPrice, 
+            App.processorID, 
             App.distributorID, 
             App.retailerID, 
             App.consumerID,
@@ -150,6 +154,7 @@ App = {
         App.originFarmLongitude+ 
         App.productNotes+ 
         App.productPrice+ 
+        App.processorID+
         App.distributorID+ 
         App.retailerID+ 
         App.consumerID+
@@ -321,10 +326,25 @@ App = {
         // When they are, we'll place the values received into the form on the page.
         // SET the values temporarily...
         App.localItemState = "Planted";
+        App.processorID = "Smiley Face";
         // PLACE the values on the page...
-        $("#productState1").val(`${App.localItemState}`); // MWJ - Should work
-        $("#ftc-item").text(`plantItem ftc-item TEXT are here! App.localItemState = ${App.localItemState}`); // MWJ - Should work
-        /************** SAVE FOR TESTING *****************/
+        $("#productState1").val(`${App.localItemState}`); // MWJ
+        $("#processorID1").val(`${App.processorID}`); // MWJ
+        // Disable Button
+        $('#button-plant').prop('disabled', true);
+        $('#button-grow').addClass('btn-success'); // .removeClass('btn-success');
+
+        console.log(`App.upc: ${App.upc}`); 
+        console.log(`App.ownerID: ${App.ownerID}`);
+        console.log(`App.originFarmName: ${App.originFarmName}`);
+        console.log(`App.originFarmInformation: ${App.originFarmInformation}`);
+        console.log(`App.originFarmLatitude: ${App.originFarmLatitude}`);
+        console.log(`App.originFarmLongitude: ${App.originFarmLongitude}`);
+        console.log(`App.productNotes: ${App.productNotes}`);
+        console.log(`App.processorID: ${App.processorID}`);
+        console.log(`App.localItemState: ${App.localItemState}`);
+
+/************** SAVE FOR TESTING *****************/
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.plantItem(
                 App.upc, 
