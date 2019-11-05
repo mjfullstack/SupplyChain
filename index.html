@@ -68,7 +68,7 @@
         <div class="row">
             <div class="col col-md-6 col-sm-12 col-xs-12">
                 <h2>Grower Data Input & Processes</h2>
-                <div id="farm-func">
+                <div id="grower-func">
                     <div class="form-group-sm">
                         <!-- <p class="bold">Origin Grower ID</p> -->
                         Origin Grower ID
@@ -113,7 +113,7 @@
             </div>
             <div class="col col-md-6 col-sm-12 col-xs-12">
                 <h2>Product Details</h2>
-                <div id="farm-func">
+                <div id="product-func">
                     <div class="form-group-sm">
                         <!-- Make container for SKU, UPC, and Product ID on one line -->
                         <div class="container">
@@ -148,7 +148,12 @@
                                     <br>
                                     <input class="form-control form-control-sm" type="text" id="productState1" name="productState" placeholder="Pre-Planning Stage" value="" size="50"  readonly><br>
                                 </div>
-                                <div class="col col-md-4 col-sm-12 col-xs-12"></div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Check UPC Status
+                                    <br>
+                                    <!-- <input class="form-control form-control-sm" type="text" id="productState3" name="productState" placeholder="NOT Ordered" value="" size="50" readonly><br> -->
+                                    <button class="btn btn-sm btn-fetch-upc btn-success" id="button-fetch-upc" type="button" data-id="18">Fetch UPC</button>
+                                </div>
                             </div>
                         </div>
                         Processor ID
@@ -179,7 +184,7 @@
         <div class="row">
             <div class="col col-md-6 col-sm-12 col-xs-12">
                 <h2>Processor Functions</h2>
-                <div id="farm-func">
+                <div id="processor-func">
                     <div class="form-group-sm">
                         Processor ID
                         <br>
@@ -231,7 +236,7 @@
                             <button class="btn btn-lg btn-process" id="button-process" type="button" data-id="2">Process</button>
                             <button class="btn btn-lg btn-pack" id="button-pack" type="button" data-id="3">Pack</button>
                             <button class="btn btn-lg btn-forsale" id="button-forsale" type="button" data-id="4">ForSale</button>
-                            <button class="btn btn-lg btn-ship" id="button" type="button" data-id="6">Ship</button>
+                            <button class="btn btn-lg btn-ship" id="button-ship" type="button" data-id="6">Ship</button>
                         </div>
                     </div>
                 <div class=form-break></div>
@@ -239,7 +244,7 @@
             </div>
             <div class="col col-md-6 col-sm-12 col-xs-12">
                 <h2>Distributor Functions</h2>
-                <div id="farm-func">
+                <div id="distributor-func">
                     <div class="form-group-sm">
                         Distributor ID
                         <br>
@@ -277,7 +282,12 @@
                                     <br>
                                     <input class="form-control form-control-sm" type="text" id="productState3" name="productState" placeholder="Pre-Planning Stage" value="" size="50" readonly><br>
                                 </div>
-                                <div class="col col-md-4 col-sm-12 col-xs-12"></div>
+                                <div class="col col-md-4 col-sm-12 col-xs-12">
+                                    Retailer Order Status
+                                    <br>
+                                    <!-- <input class="form-control form-control-sm" type="text" id="productState3" name="productState" placeholder="NOT Ordered" value="" size="50" readonly><br> -->
+                                    <button class="btn btn-sm btn-retailer-ordered-displayed btn-warning" id="button-retailer-ordered-display" type="button" data-id="19" disabled>NOT Ordered</button>
+                                </div>
                             </div>
                         </div>
                         Product Description & Notes
@@ -301,7 +311,7 @@
         <div class="row">
             <div class="col col-md-6 col-sm-12 col-xs-12">
                 <h2>Retailer Processes</h2>
-                <div id="farm-func">
+                <div id="retailer-func">
                     <div class="form-group-sm">
                         Retailer ID
                         <br>
@@ -359,7 +369,7 @@
             </div>
             <div class="col col-md-6 col-sm-12 col-xs-12">
                 <h2>Consumer Interface</h2>
-                <div id="farm-func">
+                <div id="consumer-func">
                     <div class="form-group-sm">
                         Consumer ID
                         <br>
@@ -407,10 +417,14 @@
                         <br>
                         <input class="form-control form-control-sm" type="text" id="retailerID5" name="retailerID" placeholder="TBD" value=""size="50" readonly><br>
                         <div class=button-div>
-                            <button class="btn btn-lg btn-buy-instore" id="button" type="button" data-id="8">Purchase In Store</button>
-                            <button class="btn btn-lg btn-buy-online" id="button" type="button" data-id="16">Purchase Online</button>
-                            <button class="btn btn-lg btn-receive-retail" id="button" type="button" data-id="17">Received Retail</button>
+                            <button class="btn btn-lg btn-buy-instore" id="button-buy-instore" type="button" data-id="8">Purchase In Store</button>
+                            <button class="btn btn-lg btn-buy-online" id="button-buy-online" type="button" data-id="16">Purchase Online</button>
+                            <button class="btn btn-lg btn-receive-retail" id="button-receive-retail" type="button" data-id="17">Received Retail</button>
                         </div>
+                        <br>
+                        <hr class="horizontal-rule" >
+                        <h4 id="purchase-complete"></h4>
+                        <hr class="horizontal-rule" >
                     </div>
                     <div class=form-break></div>
                 </div>
@@ -549,6 +563,7 @@
         </div>
         <br><br>
         <hr class="horizontal-rule" >
+        <hr class="horizontal-rule" >
         <hr><hr>
         <hr class="horizontal-rule" >
         <h2>Transaction History<span id="ftc-history"></span></h2>
@@ -560,6 +575,7 @@
         </div>
         <hr class="horizontal-rule" >
         <hr><hr>
+        <hr class="horizontal-rule" >
         <hr class="horizontal-rule" >
         <!-- <br><br>
         <h3>Test Area</h3>
