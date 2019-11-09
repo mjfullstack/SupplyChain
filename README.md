@@ -68,6 +68,46 @@ TxnHash:
 0x95311d664b09cf9daf15f8c38119d4d190cca4c6306569f26b00e09b1eae8c49
 
 
+### Sixth Deployment: (ganache-cli mnemonic matches truffle-config.js deploy mnemonic) (but ganache GUI was running in the background with a different mnemonic) 
+From Etherscan:
+
+Address:
+0x0d85295e9b0f87a506d3ce71b69f996e55746352
+
+Contract:
+0x179e4b127a60d939003515af91ffaaaba056a68a
+
+TxnHash:
+0xdac5d0f7cb4f9f594c831fc6faa459b7956d77929e7bed1cc326030e0022f29a
+
+### Seventh Deployment: (ganache GUI mnemonic matches truffle-config.js deploy mnemonic) 
+From Etherscan:
+
+Address:
+0x0d85295e9b0f87a506d3ce71b69f996e55746352
+
+Contract:
+0xd5b7c39b1cf75e2b85689a1c42e17a7af6f5faf1
+
+TxnHash:
+0x92e58f69130b914242fbf60149dae09273021653ae3ac2cdac8cb9c08439f083
+
+# ONLY ON LOCAL NETWORK
+### EIGHTH Deployment: (ganache GUI mnemonic matches truffle-config.js deploy mnemonic) 
+From Etherscan:
+
+Address:
+0x0d85295e9b0f87a506d3ce71b69f996e55746352
+
+Contract:
+0x8d33b6f1c78a025b558b81e4df408bec0b94703c
+
+TxnHash:
+0x131f04e1b00c66b6686a0f22c106248c5e89f1cd4cff5277a2827d581b115fb2
+
+
+
+
 
 ## Testing Notes
 ### Discrepancy between TestSupplychain.js and Sequence Diagram:

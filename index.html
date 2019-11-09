@@ -48,13 +48,17 @@
         <hr class="horizontal-rule" >
         <h3>Easy Input Section - Copy and Paste:</h3>
             <ul>
-                <li>Origin Grower ID: <b>0x0D85295e9B0f87A506d3ce71B69F996e55746352</b></li>
+                <li>Origin Grower ID (Acct[0]): <b>0x0D85295e9B0f87A506d3ce71B69F996e55746352</b> (Acct[6]): <b>0x80C2c47C1054d656480cd7ddC328B07823038dC4</b></li>
                 <li>Origin Grower Name: <b>Michael Minion</b></li>
                 <li>Origin Farm Info: <b>Minion Valley</b></li>
                 <li>Farm Latitude: <b>-33.003</b></li>
                 <li>Farm Longitude: <b>166.543</b></li>
                 <li>Product Description: <b>Bananas for Nanas!</b></li>
                 <li>UPC: <b>5</b></li>
+                <li>Processor ID (Acct[1]): <b>0x724010d1cD4bc3d816E03677141d1FFC0Edc1433</b> (Acct[7]): <b>0x96CBa4B961e1a67e86de761cEB9450B03AE090B0</b></li>
+                <li>Distributor ID (Acct[2]): <b>0x38764361d37Cc1990319233375Bf5aC6557A60BF</b> (Acct[8]): <b>0x4b5808350Af5c340dB2Dd43A5c3058759971C4c6</b></li>
+                <li>Retailer ID (Acct[3]): <b>0x3cFcf29A6e77A5b94AA598D0456ebcA33099A5B6</b> (Acct[9]): <b>0x79622C0959662698211299410CB581D00B20CB07</b></li>
+                <li>Consumer ID (Acct[4]): <b>0xfEacE42d3ffCD689A8b1216B08FA8eB6AAc89207</b> (Acct[5]): <b>0xC9716Fcb97e9285bD720Ae8291Da871e0aC977e9</b></li>
             </ul>
         
         <p id="ftc-item"></p>
@@ -169,10 +173,9 @@
                         Consumer ID
                         <br>
                         <input class="form-control form-control-sm" type="text" id="consumerID1" name="consumerID" placeholder="TBD" value="" size="50" readonly><br>
-                        <!-- <br><br>
-                        <textarea class="form-control" id="ftc-item2" rows="10"></textarea>
-                        <p id="ftc-item2p"></p>
-                        <p id="ftc-item2p2"></p> -->
+                        Current Owner ID
+                        <br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID1" name="ownerID" placeholder="TBD" value="" size="50" readonly><br>
                     </div>
                     <div class=form-break></div>
                 </div>
@@ -200,7 +203,7 @@
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     UPC
                                     <br>
-                                    <input class="input-field form-control form-control-sm" type="number" id="upc2" name="upc" placeholder="--" value=""><br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc2" name="upc" placeholder="--" value="" readonly><br>
                                 </div>
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     Product ID
@@ -260,7 +263,7 @@
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     UPC
                                     <br>
-                                    <input class="input-field form-control form-control-sm" type="number" id="upc3" name="upc" placeholder="--" value=""><br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc3" name="upc" placeholder="--" value="" readonly><br>
                                 </div>
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     Product ID
@@ -327,7 +330,7 @@
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     UPC
                                     <br>
-                                    <input class="input-field form-control form-control-sm" type="number" id="upc4" name="upc" placeholder="--" value=""><br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc4" name="upc" placeholder="--" value="" readonly><br>
                                 </div>
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     Product ID
@@ -385,7 +388,7 @@
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     UPC
                                     <br>
-                                    <input class="input-field form-control form-control-sm" type="number" id="upc5" name="upc" placeholder="--" value=""><br>
+                                    <input class="input-field form-control form-control-sm" type="number" id="upc5" name="upc" placeholder="--" value="" readonly><br>
                                 </div>
                                 <div class="col col-md-4 col-sm-12 col-xs-12">
                                     Product ID
@@ -421,10 +424,10 @@
                             <button class="btn btn-lg btn-buy-online" id="button-buy-online" type="button" data-id="16">Purchase Online</button>
                             <button class="btn btn-lg btn-receive-retail" id="button-receive-retail" type="button" data-id="17">Received Retail</button>
                         </div>
-                        <br>
-                        <hr class="horizontal-rule" >
+                        <br><br>
+                        <!-- <hr class="horizontal-rule" > -->
                         <h4 id="purchase-complete"></h4>
-                        <hr class="horizontal-rule" >
+                        <!-- <hr class="horizontal-rule" > -->
                     </div>
                     <div class=form-break></div>
                 </div>
@@ -458,10 +461,10 @@
                         </div>
                         Current Owner ID
                         <br>
-                        <input class="form-control form-control-sm" type="text" id="ownerID" name="ownerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50" readonly><br>
+                        <input class="form-control form-control-sm" type="text" id="ownerID6" name="ownerID" placeholder="ex: 0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50" readonly><br>
                         Origin Grower ID
                         <br>
-                        <input class="form-control form-control-sm" type="text" id="originFarmerID6" name="originFarmerID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50" readonly><br>
+                        <input class="form-control form-control-sm" type="text" id="originFarmerID6" name="originFarmerID" placeholder="ex: 0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50" readonly><br>
                         Origin Grower Name
                         <br>
                         <input class="form-control form-control-sm" type="text" id="originFarmName6" name="originFarmName" placeholder="Jerimiah Johnson" value="" size="50" readonly><br>
@@ -485,7 +488,7 @@
                         </div>
                         Processor ID
                         <br>
-                        <input class="form-control form-control-sm" type="text" id="processorIDfetch" name="processorIDfetch" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50" readonly><br>
+                        <input class="form-control form-control-sm" type="text" id="processorID6" name="processorID" placeholder="0x27d8d15cbc94527cadf5ec14b69519ae23288b95" value="" size="50" readonly><br>
                         <div class=button-div>
                             <button class="btn btn-lg btn-fetchOne" id="button" type="button" data-id="9">Fetch Data 1</button>
                         </div>
@@ -535,7 +538,7 @@
                                 <div class="col col-md-6 col-sm-12 col-xs-12">
                                     Product State
                                     <br>
-                                    <input class="form-control form-control-sm" type="text" id="productState7" name="ownerID" placeholder="Pre-Planning Stage" value="" size="50" readonly><br>
+                                    <input class="form-control form-control-sm" type="text" id="productState7" name="productState" placeholder="Pre-Planning Stage" value="" size="50" readonly><br>
                                 </div>
                             </div>
                         </div>
@@ -563,7 +566,7 @@
         </div>
         <br><br>
         <hr class="horizontal-rule" >
-        <hr class="horizontal-rule" >
+        <!-- <hr class="horizontal-rule" > -->
         <hr><hr>
         <hr class="horizontal-rule" >
         <h2>Transaction History<span id="ftc-history"></span></h2>
@@ -575,7 +578,7 @@
         </div>
         <hr class="horizontal-rule" >
         <hr><hr>
-        <hr class="horizontal-rule" >
+        <!-- <hr class="horizontal-rule" > -->
         <hr class="horizontal-rule" >
         <!-- <br><br>
         <h3>Test Area</h3>
