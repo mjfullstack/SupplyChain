@@ -16,7 +16,8 @@ contract('SupplyChainInstore', function(accounts) {
     const originFarmInformation = "Yarray Valley"
     const originFarmLatitude = "-38.239770"
     const originFarmLongitude = "144.341490"
-    var productID = 1000000*sku + 100*upc // sku000upc00 format /// ORIG -> sku + upc
+    var retailerOrdered = 0
+    var productID = 1000000*sku + 100*upc + retailerOrdered // sku000upc00 format /// ORIG -> sku + upc
     const productNotes = "Best beans for Espresso"
     // const productPrice = web3.utils.toWei("1", "ether") // truffle version 5, web3 1.0.x
     const productPrice = web3.toWei("1", "ether")
@@ -52,11 +53,12 @@ contract('SupplyChainInstore', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
 
         // Add Roles via their addresses
-        await supplyChain.addGrower(originGrowerID, {from: contractOwnerID})
-        await supplyChain.addProcessor(processorID, {from: contractOwnerID})
-        await supplyChain.addDistributor(distributorID, {from: contractOwnerID})
-        await supplyChain.addRetailer(retailerID, {from: contractOwnerID})
-        await supplyChain.addConsumer(consumerID, {from: contractOwnerID})
+        // THIS IS NOW DONE IN THE FUNCTIONS ON THE BLOCKCHAIN
+        // await supplyChain.addGrower(originGrowerID, {from: contractOwnerID})
+        // await supplyChain.addProcessor(processorID, {from: contractOwnerID})
+        // await supplyChain.addDistributor(distributorID, {from: contractOwnerID})
+        // await supplyChain.addRetailer(retailerID, {from: contractOwnerID})
+        // await supplyChain.addConsumer(consumerID, {from: contractOwnerID})
 
         // Declare and Initialize a variable for event
         var eventEmitted = false
@@ -68,7 +70,8 @@ contract('SupplyChainInstore', function(accounts) {
         })
 
         // Mark an item as Planted by calling function plantItem()
-        await supplyChain.plantItem(upc, originGrowerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes, {from: originGrowerID})
+        // await supplyChain.plantItem(upc, originGrowerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes, {from: originGrowerID})
+        await supplyChain.plantItem(upc, originGrowerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes)
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -200,8 +203,9 @@ contract('SupplyChainInstore', function(accounts) {
         })
 
         // Mark an item as Processed by calling function processtItem()
-        await supplyChain.collectItem(upc, {from: processorID})
-            
+        // await supplyChain.collectItem(upc, {from: processorID})
+        await supplyChain.collectItem(upc, processorID)
+
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
         const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)
@@ -332,8 +336,9 @@ contract('SupplyChainInstore', function(accounts) {
         })
 
         // Mark an item as ForSale by calling function sellItem()
-        await supplyChain.sellItem(upc, 1000000000000000000, {from: processorID})
-            
+        // await supplyChain.sellItem(upc, 1000000000000000000, {from: processorID}) // 1 ETH
+        await supplyChain.sellItem(upc, 1000000000000000000, {from: processorID}) // Try smaller?
+
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
         const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)
@@ -376,8 +381,11 @@ contract('SupplyChainInstore', function(accounts) {
         })
 
         // Mark an item as Sold by calling function buyItem()
-        await supplyChain.retailerOrder(upc, {from: retailerID})
-            
+        // await supplyChain.retailerOrder(upc, {from: retailerID})
+        await supplyChain.retailerOrder(upc, retailerID)
+        // Update retailerOrdered and therefore productID with ordered status
+        retailerOrdered = 1
+
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
         const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)
@@ -401,7 +409,7 @@ contract('SupplyChainInstore', function(accounts) {
         assert.equal(resultBufferTwo[4], productPrice, 'Error: Invalid item productPrice')
         assert.equal(resultBufferTwo[5], 7, 'Error: Invalid itemState')
         assert.equal(resultBufferTwo[6], emptyAddress, 'Error: Invalid item distributorID')
-        assert.equal(resultBufferTwo[7], emptyAddress, 'Error: Invalid item retailerID')
+        assert.equal(resultBufferTwo[7], retailerID, 'Error: Invalid item retailerID')
         assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid item consumerID')
         assert.equal(eventEmitted, true, 'Invalid event emitted')        
     })
@@ -420,7 +428,8 @@ contract('SupplyChainInstore', function(accounts) {
         })
 
         // Mark an item as Sold by calling function buyItem()
-        await supplyChain.buyItem(upc, {from: distributorID, value: 4000000000000000000})
+        // await supplyChain.buyItem(upc, {from: distributorID, value: 4000000000000000000})
+        await supplyChain.buyItem(upc, distributorID, {value: 4000000000000000000})
             
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -445,7 +454,7 @@ contract('SupplyChainInstore', function(accounts) {
         assert.equal(resultBufferTwo[4], productPrice, 'Error: Invalid item productPrice')
         assert.equal(resultBufferTwo[5], 8, 'Error: Invalid itemState')
         assert.equal(resultBufferTwo[6], distributorID, 'Error: Invalid item distributorID')
-        assert.equal(resultBufferTwo[7], emptyAddress, 'Error: Invalid item retailerID')
+        assert.equal(resultBufferTwo[7], retailerID, 'Error: Invalid item retailerID')
         assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid item consumerID')
         assert.equal(eventEmitted, true, 'Invalid event emitted')        
     })    
@@ -494,7 +503,7 @@ contract('SupplyChainInstore', function(accounts) {
         assert.equal(resultBufferTwo[4], productPrice, 'Error: Invalid item productPrice')
         assert.equal(resultBufferTwo[5], 9, 'Error: Invalid itemState')
         assert.equal(resultBufferTwo[6], distributorID, 'Error: Invalid item distributorID')
-        assert.equal(resultBufferTwo[7], emptyAddress, 'Error: Invalid item retailerID')
+        assert.equal(resultBufferTwo[7], retailerID, 'Error: Invalid item retailerID')
         assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid item consumerID')
         assert.equal(eventEmitted, true, 'Invalid event emitted')        
     })    
@@ -602,7 +611,10 @@ contract('SupplyChainInstore', function(accounts) {
         })
 
         // Mark an item as Purchased by calling function purchaseItem()
-        await supplyChain.purchaseInstoreItem(upc, {from: consumerID})
+        // Commented line does work IF ConsumerRole.sol is updated per
+        // notes in that file for addConsumer
+        // await supplyChain.purchaseInstoreItem(upc, {from: consumerID})
+        await supplyChain.purchaseInstoreItem(upc, consumerID) // From contract owner 1st time
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -648,7 +660,10 @@ contract('SupplyChainInstore', function(accounts) {
         })
 
         // Mark an item as Purchased by calling function purchaseItem()
-        await supplyChain.purchaseOnlineItem(upc, {from: consumerID})
+        // Commented line does work IF ConsumerRole.sol is updated per
+        // notes in that file for addConsumer
+        // await supplyChain.purchaseOnlineItem(upc, {from: consumerID})
+        await supplyChain.purchaseOnlineItem(upc, consumerID) // From contract owner 1st time
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
