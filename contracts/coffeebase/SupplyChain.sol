@@ -69,7 +69,7 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     address distributorID;  // Metamask-Ethereum address of the Distributor
     address retailerID; // Metamask-Ethereum address of the Retailer
     address consumerID; // Metamask-Ethereum address of the Consumer
-    bool    retailerOrdered; // Distributor can't buy if Retailer has not ordered - Inventory Control Concept
+    uint    retailerOrdered; // Distributor can't buy if Retailer has not ordered - Inventory Control Concept
   }
 
   // Define 14 events with the same 14 state values and accept 'upc' as input argument
@@ -173,7 +173,7 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   modifier orderable(uint _upc) {
     require(uint(items[_upc].itemState) >= 0 && // Must have been planted up to...
       uint(items[_upc].itemState) <= 7 &&       // Must NOT have yet been sold...
-      items[_upc].retailerOrdered == false);  // Must not have already been ordered
+      items[_upc].retailerOrdered == 0);  // Must not have already been ordered
     _;
   }
 
@@ -183,9 +183,9 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   // preventing distributor from buying more stock if there is not a retailer
   // who has ordered more. This facilitates tracking quantities, but that concept
   // is beyond the scope of this project.
-  // Define a modifier that checks if an items[_upc].retailerOrdered == true
+  // Define a modifier that checks if an items[_upc].retailerOrdered == 1 // true
   modifier ordered(uint _upc) {
-    require(items[_upc].retailerOrdered == true);
+    require(items[_upc].retailerOrdered == 1);
     _;
   }
 
@@ -257,12 +257,18 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     string  _originFarmLatitude, 
     string  _originFarmLongitude, 
     string  _productNotes
-  ) onlyGrower public 
+  ) 
+  onlyGrower // The FIRST time, grower is the contract owner who has ALL the roles
+  // OK, Don't want verify caller since this will establish originGrowerID as a grower
+  public 
   {
+    // Add the originGrowerID as a grower AS WELL AS setting items[_upc].originGrowerID
+    addGrower(_originGrowerID);
     // Add the new item as part of Harvest
     items[_upc] = Item( 
       { sku: sku, 
         upc: _upc, 
+        retailerOrdered: 0,
         // currItemOwnerID: owner(), // MWJ: Adding OWNABLE, inheritance by this contract // owner, 
         currItemOwnerID: _originGrowerID, // currItemOwner 
         originGrowerID: _originGrowerID,
@@ -270,6 +276,7 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
         originFarmInformation: _originFarmInformation,
         originFarmLatitude: _originFarmLatitude,
         originFarmLongitude: _originFarmLongitude,
+        // productID: 1000000*sku + 100*_upc + items[_upc].retailerOrdered, // sku000upc00 format
         productID: 1000000*sku + 100*_upc, // sku000upc00 format
         productNotes: _productNotes,
         productPrice: 0, 
@@ -277,8 +284,7 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
         processorID: address(0),
         distributorID: address(0), 
         retailerID: address(0),
-        consumerID: address(0),
-        retailerOrdered: false
+        consumerID: address(0)
       } );        
     // Increment sku
     sku = sku + 1;
@@ -291,7 +297,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   // Call modifier to check if upc has passed previous supply chain stage
   planted(_upc) 
   // Call modifier to verify caller of this function
-  onlyGrower 
+  onlyGrower // checking that the grower is on the list
+  verifyCaller(items[_upc].originGrowerID) // Specific grower for THIS upc
   public 
   {
     // Update the appropriate fields
@@ -306,7 +313,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   // Call modifier to check if upc has passed previous supply chain stage
   grown(_upc) 
   // Call modifier to verify caller of this function
-  onlyGrower 
+  onlyGrower // checking that the grower is on the list
+  verifyCaller(items[_upc].originGrowerID) // Specific grower for THIS upc
   public 
   {
     // Update the appropriate fields
@@ -317,15 +325,19 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   }
 
   // Define a function 'collectItem' that allows a PROCESSOR to mark an item 'Collected'
-  function collectItem(uint _upc) 
+  function collectItem(uint _upc, address _processorID) 
   // Call modifier to check if upc has passed previous supply chain stage
   harvested(_upc) 
   // Call modifier to verify caller of this function
-  onlyProcessor 
+  onlyProcessor // The FIRST time, processor is the contract owner who has ALL the roles
+  // OK, Don't want verify caller since this will establish processorID as a processor
   public 
   {
+    // Add the processorID as a processor AS WELL AS setting items[_upc].processorID
+    addProcessor(_processorID);
     // Update the appropriate fields - currItemOwnerID, processorID, itemState
-    address processor = msg.sender;
+    // address processor = msg.sender;
+    address processor = _processorID;
     items[_upc].itemState = State.Collected;
     items[_upc].currItemOwnerID = processor;
     items[_upc].processorID = processor;
@@ -339,7 +351,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   // Call modifier to check if upc has passed previous supply chain stage
   collected(_upc) 
   // Call modifier to verify caller of this function
-  onlyProcessor 
+  onlyProcessor // checking that the processor is on the list
+  verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
   public 
   {
     // Update the appropriate fields
@@ -355,7 +368,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   // Call modifier to check if upc has passed previous supply chain stage
   processed(_upc) 
   // Call modifier to verify caller of this function
-  onlyProcessor 
+  onlyProcessor // checking that the processor is on the list
+  verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
   public 
   {
     // Update the appropriate fields
@@ -370,7 +384,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   // Call modifier to check if upc has passed previous supply chain stage
   packed(_upc) 
   // Call modifier to verify caller of this function
-  onlyProcessor 
+  onlyProcessor // checking that the processor is on the list
+  verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
   public 
   {
     // Update the appropriate fields
@@ -382,17 +397,24 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   }
 
   // Define a function 'retailerOrder' that allows a RETAILER to mark a item as ORDERED
-  function retailerOrder(uint _upc)
+  function retailerOrder(uint _upc, address _retailerID)
     // Call a modifier that indicates this UPC has at least been planted but not yet sold 
     // It can be anywhere in the supply chain after planted as well PRIOR to being sold
     // It must also not have been ordered already - see the modifier
     orderable(_upc)
     // Call a modifier that only the Retailer can order from the distributor
-    onlyRetailer
+    onlyRetailer // The FIRST time, retailer is the contract owner who has ALL the roles
+    // OK, Don't want verify caller since this will establish processorID as a processor
     public
     {
+    addRetailer(_retailerID);
     // Update the items field - NOTE: This is NOT in itemState
-    items[_upc].retailerOrdered = true;
+    // address retailer = msg.sender;
+    address retailer = _retailerID;
+    items[_upc].retailerID = retailer;
+    items[_upc].retailerOrdered = 1;
+    // Reflect ordered status in productID for DAPP presentation...
+    // items[_upc].productID = items[_upc].productID + items[_upc].retailerOrdered; // Odd numbers indicate item has been ordered!
     // Emit the proper event
     emit RetailerOrdered(_upc);
   }
@@ -401,7 +423,7 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   // Define a function 'buyItem' that allows the disributor to mark an item 'Sold'
   // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough, 
   // and any excess ether sent is refunded back to the buyer
-  function buyItem(uint _upc) 
+  function buyItem(uint _upc, address _distributorID) 
     // Call modifier to check if upc has passed previous supply chain stage
     forSale(_upc) 
     // Call modifer to check if buyer has paid enough
@@ -409,11 +431,13 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     // Call modifer to send any excess ether back to buyer
     checkValue(_upc) 
     // ADDING: Check to see if purchaser is a DISTRIBUTOR
-    onlyDistributor
+    onlyDistributor// The FIRST time, distributor is the contract owner who has ALL the roles
     public payable 
     {
+    addDistributor(_distributorID);
     // Update the appropriate fields - currItemOwnerID, distributorID, itemState
-    address buyer = msg.sender;
+    // address buyer = msg.sender;
+    address buyer = _distributorID;
     items[_upc].itemState = State.Sold;
     items[_upc].currItemOwnerID = buyer;
     items[_upc].distributorID = buyer;
@@ -431,7 +455,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     // Call modifier to check if upc has passed previous supply chain stage
     sold(_upc)
     // Call modifier to verify caller of this function
-    onlyProcessor
+    onlyProcessor // checking that the processor is on the list
+    verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
     {
     // Update the appropriate fields
     items[_upc].itemState = State.Shipped;    
@@ -446,12 +471,12 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     shipped(_upc)
     // THEIRS (what?) -> Access Control List enforced by calling Smart Contract / DApp
     // MWJ: Check for onlyRetailer
-    onlyRetailer
+    onlyRetailer // checking that the retailer is on the list
+    verifyCaller(items[_upc].retailerID) // Specific retailer for THIS upc
     {
     // Update the appropriate fields - currItemOwnerID, retailerID, itemState
     address retailer = msg.sender;
     items[_upc].currItemOwnerID = retailer;
-    items[_upc].retailerID = retailer;
     items[_upc].itemState = State.Received;    
     // Emit the appropriate event
     emit Received(_upc);
@@ -464,7 +489,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     // MWJ: Check for onlyRetailer
-    onlyRetailer
+    onlyRetailer // checking that the retailer is on the list
+    verifyCaller(items[_upc].retailerID) // Specific retailer for THIS upc
     {
     // Update the appropriate fields - currItemOwnerID, consumerID, itemState
     items[_upc].itemState = State.ShelvesStocked;
@@ -474,13 +500,16 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
 
   // Define a function 'purchaseInstoreItem' that allows the consumer to mark an item 'purchaseInstoreItem'
   // Use the above modifiers to check if the item is ShelvesStocked
-  function purchaseInstoreItem(uint _upc) public 
+  // NOTE: Both purchase functions should accept any msg.sender as the consumreID. 
+  //       However, for meeting student project review, ConsumreRole.sol is left as is.
+  function purchaseInstoreItem(uint _upc, address _consumerID) public 
     // Call modifier to check if upc has passed previous supply chain stage
     shelvesStocked(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     {
+    addConsumer(_consumerID); // Add to our list, but SHOULD BE INTENTIONALLY never checked - ALL consuners welcome!!!
     // Update the appropriate fields - currItemOwnerID, consumerID, itemState
-    address consumer = msg.sender;
+    address consumer = _consumerID; // See NOTE in ConsumerRole.sol: This shoule be able to be msg.sender
     items[_upc].itemState = State.PurchasedInstore;
     items[_upc].currItemOwnerID = consumer;
     items[_upc].consumerID = consumer;
@@ -490,13 +519,16 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
 
   // Define a function 'purchaseOnlineItem' that allows the consumer to mark an item 'PurchaseOnlineItem'
   // Use the above modifiers to check if the item is received
-  function purchaseOnlineItem(uint _upc) public 
+  // NOTE: Both purchase functions should accept any msg.sender as the consumreID. 
+  //       However, for meeting student project review, ConsumreRole.sol is left as is.
+  function purchaseOnlineItem(uint _upc, address _consumerID) public 
     // Call modifier to check if upc has passed previous supply chain stage
     shelvesStocked(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     {
     // Update the appropriate fields - currItemOwnerID, consumerID, itemState
-    address consumer = msg.sender;
+    addConsumer(_consumerID); // On-line consumers are checked for correct consumer receiving item.
+    address consumer = _consumerID; // See NOTE in ConsumerRole.sol: This shoule be able to be msg.sender
     items[_upc].itemState = State.PurchasedOnline;
     items[_upc].currItemOwnerID = consumer;
     items[_upc].consumerID = consumer;
@@ -510,13 +542,14 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     // Call modifier to check if upc has passed previous supply chain stage
     purchasedOnline(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
-    onlyConsumer
+    onlyConsumer // Consumer must be on the list to mark an item received
+    verifyCaller(items[_upc].consumerID) // Specific consumer for THIS upc
     {
     // Update the appropriate fields - currItemOwnerID, consumerID, itemState
-    address consumer = msg.sender;
+    // address consumer = msg.sender;
     items[_upc].itemState = State.ConsumerReceived;
-    items[_upc].currItemOwnerID = consumer;
-    items[_upc].consumerID = consumer;
+    // items[_upc].currItemOwnerID = consumer;
+    // items[_upc].consumerID = consumer;
     // Emit the appropriate event
     emit ConsumerReceived(_upc);
   }

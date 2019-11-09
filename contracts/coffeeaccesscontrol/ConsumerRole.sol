@@ -33,6 +33,11 @@ contract ConsumerRole {
   }
 
   // Define a function 'addConsumer' that adds this role
+  // NOTE: This requirement does NOT make sense since in sales,
+  //       ALL consumers are welcome! The commented line is how
+  //       it shoulld work, but will be left as is for the student
+  //       project grading.
+  // function addConsumer(address account) public  {
   function addConsumer(address account) public onlyConsumer {
     _addConsumer(account);
   }
