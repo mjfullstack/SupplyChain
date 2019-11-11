@@ -121,6 +121,22 @@ TxnHash:
 
 # ONLY ON LOCAL NETWORK
 ### TENTH Deployment: (ganache GUI mnemonic matches truffle-config.js deploy mnemonic) 
+## verifyCaller() Feature implementation FAILS
+From Ganache GUI:
+
+Address:
+0x0d85295e9b0f87a506d3ce71b69f996e55746352
+
+Contract:
+0xd4f5b26a85f2c8ec7be0824de6a55e053b245c3d
+
+TxnHash:
+0xc2d2c75e932234ce537a6ae432363615785f1be9c813c6b61de136e9221420b8
+
+
+# ONLY ON LOCAL NETWORK
+### ELEVENTH Deployment: (ganache GUI mnemonic matches truffle-config.js deploy mnemonic) 
+## Backed out verifyCaller() Feature, passes Truffle Compile/Test Fails on Web
 From Ganache GUI:
 
 Address:
@@ -131,6 +147,9 @@ Contract:
 
 TxnHash:
 0x1fa770a4b37edf6b6714e3aab426800cca22ef809a5dd24c845187fe2313237b
+
+
+
 
 
 

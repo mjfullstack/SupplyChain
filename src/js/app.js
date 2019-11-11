@@ -149,41 +149,41 @@ App = {
     readFormN: function (_procId) {
         let _n;
         switch(_procId) {
-            case 11: // grower
-            case 12: // grower
-            case 1: // grower
+            case 11: // grower PLANT
+            case 12: // grower GROW
+            case 1:  // grower HARVEST
                 _n = 1;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 13: // processor
-            case 2: // processor
-            case 3: // processor
-            case 4: // processor
-            case 6: // processor
+            case 13: // processor COLLECT
+            case 2:  // processor PROCESS
+            case 3:  // processor PACK
+            case 4:  // processor SELL
+            case 6:  // processor SHIP
                 _n = 2;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 5: // distributor
+            case 5:  // distributor BUY
                 _n = 3;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 14: // retailer
-            case 7: // retailer
-            case 15: // retailer
+            case 14: // retailer ORDER
+            case 7:  // retailer RECEIVE
+            case 15: // retailer STOCK SHELVES
                 _n = 4;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 8: // consumer
-            case 16: // consumer
-            case 17: // consumer
+            case 8:  // consumer PURCHASE INSTORE
+            case 16: // consumer PURCHASE ONLINE
+            case 17: // consumer MARK RECEIVED
                 _n = 5;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 9: // fetch 1
+            case 9:  // fetch 1
                 _n = 6;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 10: // fetch 2
+            case 10:  // fetch 2
                 _n = 7;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
@@ -477,7 +477,7 @@ App = {
         console.log("res1-retailerOrd", _result[1].c[0]);
     },
 
-    updateAppFieldsFetch1: (_result) => {
+    updateAppVarsFetch1: (_result) => {
         App.sku                     = _result[0].c[0];  // This gets assigned in SupplyChain.sol
         App.upc                     = _result[1].c[0];
         App.currItemOwnerID         = _result[2];       // CURRENT ITEM Owner
@@ -489,7 +489,7 @@ App = {
         App.processorID             = _result[8];
     },
 
-    updateAppFieldsFetch2: (_result) => {
+    updateAppVarsFetch2: (_result) => {
         App.sku                     = _result[0].c[0];  // This gets assigned in SupplyChain.sol
         App.upc                     = _result[1].c[0];
         App.productID               = _result[2].c[0]; // This gets assigned in SupplyChain.sol
@@ -501,7 +501,7 @@ App = {
         App.consumerID              = _result[8];
     },
 
-    updateAppFieldsFetch3: (_result) => {
+    updateAppVarsFetch3: (_result) => {
         // App.productID               = _result[0].c[0]; // This gets assigned in SupplyChain.sol
         App.retailerOrdered         = _result[1].c[0];
     },
@@ -511,28 +511,28 @@ App = {
         // return await App.fetchItemBufferOne(App.upc); // ORIG
         let case18bufOne = await App.fetchItemBufferOne(_dispUPC);
         console.log("case18bufOne:");
-        console.log(case18bufOne);
-        App.consoleLogFetch1Results(case18bufOne);
-        App.updateAppFieldsFetch1(case18bufOne);
+        console.log(case18bufOne); // UNDEFINED, so next line NOT done correctly here
+        await App.consoleLogFetch1Results(case18bufOne); // Done correctly in fetchItemBufferOne
+        await App.updateAppVarsFetch1(case18bufOne); // Update App.x VARS
 
         // return await App.fetchItemBufferTwo(App.upc); // ORIG
         let case18bufTwo = await App.fetchItemBufferTwo(_dispUPC);
         console.log("case18bufTwo:");
         console.log(case18bufTwo);
-        App.consoleLogFetch2Results(case18bufTwo);
-        App.updateAppFieldsFetch2(case18bufTwo);
+        await App.consoleLogFetch2Results(case18bufTwo);
+        await App.updateAppVarsFetch2(case18bufTwo);
         
         // NEW: Adding retailerOrdered
         let case18bufThree = await App.fetchItemBufferThree(_dispUPC);
         console.log("case18bufThree:");
         console.log(case18bufThree);
-        App.consoleLogFetch3Results(case18bufThree);
-        App.updateAppFieldsFetch3(case18bufThree);
+        await App.consoleLogFetch3Results(case18bufThree);
+        await App.updateAppVarsFetch3(case18bufThree);
 
-        App.updateLocalItemState(App.productState); // Get numeric to string
-        App.updateActiveButton(App.localItemState); // Present string on page
-        App.writePageFields();
-        return ( [case18bufOne, case18bufTwo, case18bufThree] );
+        await App.updateLocalItemState(App.productState); // Get numeric to string
+        await App.updateActiveButton(App.localItemState); // Present string on page
+        await App.writePageFields();
+        return await ( [case18bufOne, case18bufTwo, case18bufThree] );
 },
 
     initWeb3: async function () {
@@ -582,15 +582,15 @@ App = {
         var jsonSupplyChain='../../build/contracts/SupplyChain.json';
         
         /// JSONfy the smart contracts
-        $.getJSON(jsonSupplyChain, function(data) {
+        $.getJSON(jsonSupplyChain, async function(data) {
             console.log('data',data);
             var SupplyChainArtifact = data;
             App.contracts.SupplyChain = TruffleContract(SupplyChainArtifact);
             App.contracts.SupplyChain.setProvider(App.web3Provider);
             
-            App.fetchItemBufferOne(App.upc); // MWJ - Changed function to take UPC as input parameter
-            App.fetchItemBufferTwo(App.upc); // MWJ - Provide UPC as input argument
-            App.fetchItemBufferThree(App.upc); // MWJ - Provide UPC as input argument
+            await App.fetchItemBufferOne(App.upc); // MWJ - Changed function to take UPC as input parameter
+            await App.fetchItemBufferTwo(App.upc); // MWJ - Provide UPC as input argument
+            await App.fetchItemBufferThree(App.upc); // MWJ - Provide UPC as input argument
             App.fetchEvents();
 
         });
@@ -709,33 +709,6 @@ App = {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
         await App.readFormN(processId);
-        /************** SAVE FOR TESTING *****************/
-        // TEMP: Set values that will eventually be returned in 'result'
-        // When they are, we'll place the values received into the form on the page.
-        // SET the values temporarily...
-        //////// App.localItemState = "Planted";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        //////// App.writePageFields();
-        // Update Active Buttons per State
-        //////// App.updateActiveButton(App.localItemState);
-        // $('#button-plant').prop('disabled', true);
-        // $('#button-grow').addClass('btn-success'); // .removeClass('btn-success');
-
-        console.log(`App.upc: ${App.upc}`); 
-        console.log(`App.currItemOwnerID: ${App.currItemOwnerID}`);
-        console.log(`App.originFarmerID: ${App.originFarmerID}`)
-        console.log(`App.originFarmName: ${App.originFarmName}`);
-        console.log(`App.originFarmInformation: ${App.originFarmInformation}`);
-        console.log(`App.originFarmLatitude: ${App.originFarmLatitude}`);
-        console.log(`App.originFarmLongitude: ${App.originFarmLongitude}`);
-        console.log(`App.productNotes: ${App.productNotes}`);
-        console.log(`App.processorID: ${App.processorID}`);
-        console.log(`App.distributorID: ${App.distributorID}`);
-        console.log(`App.retailerID: ${App.retailerID}`);
-        console.log(`App.consumerID: ${App.consumerID1}`);
-        console.log(`App.localItemState: ${App.localItemState}`);
-        /************** SAVE FOR TESTING *****************/
         await App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.plantItem(
                 App.upc, 
@@ -762,14 +735,6 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
 
-        // // SET the values...
-        // App.localItemState = "Grown";
-        // // PLACE the values on the page...
-        // // $("#productState1").val(`${App.localItemState}`); // MWJ
-        // App.writePageFields();
-        // // Update Active Buttons per State
-        // App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.growItem(App.upc, {from: App.metamaskAccountID} );
         }).then(function(result) {
@@ -787,14 +752,6 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // // SET the values...
-        // App.localItemState = "Harvested";
-        // // PLACE the values on the page...
-        // // $("#productState1").val(`${App.localItemState}`); // MWJ
-        // App.writePageFields();
-        // // Update Active Buttons per State
-        // App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.harvestItem(App.upc, {from: App.metamaskAccountID} );
         }).then(function(result) {
@@ -810,18 +767,12 @@ App = {
     collectItem: function(event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
-        
-        // // SET the values...
-        // App.localItemState = "Collected";
-        // // PLACE the values on the page...
-        // // $("#productState1").val(`${App.localItemState}`); // MWJ
-        // App.writePageFields();
-        // // Update Active Buttons per State
-        // App.updateActiveButton(App.localItemState);
-
         App.readFormN(processId);
+        console.log(`App.processorID: ${App.processorID}`);
+        console.log(`App.currItemOwnerID: ${App.currItemOwnerID}`);
+
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.collectItem(App.upc, {from: App.metamaskAccountID} );
+            return instance.collectItem(App.upc, App.processorID, {from: App.metamaskAccountID} );
         }).then(function(result) {
             $("#ftc-item").text(`collectItem, ${result}`);
             console.log(`collectItem:`);
@@ -1105,86 +1056,98 @@ App = {
         });
     },
 
-    fetchItemBufferOne: function (_upc) {
-        // event.preventDefault();
-        // var processId = parseInt($(event.target).data('id'));
-        App.upc = _upc;
-        let bufOne;
+    // fetchItemBufferOne: async function (_upc) {
+    //     // event.preventDefault();
+    //     // var processId = parseInt($(event.target).data('id'));
+    //     App.upc = _upc;
+    //     // let bufOne;
 
-        App.contracts.SupplyChain.deployed().then(function(instance) {
-          console.log(`In returned instance... about to fetch Buf1`);
-          return instance.fetchItemBufferOne(App.upc);
-        }).then(function(result) {
+    //     await App.contracts.SupplyChain.deployed().then(async function(instance) {
+    //       console.log(`In returned instance... about to fetch Buf1`);
+    //       return instance.fetchItemBufferOne.call(App.upc);
+    //     }).then(async function(result) {
+    //         console.log('fetchItemBufferOne:');
+    //         // bufOne = result;
+    //         App.consoleLogFetch1Results(result);
+    //         App.writeFetch1Fields(result); // Write WEB Page fields
+    //         return await result;
+    //     }).catch(function(err) {
+    //         console.log(err.message);
+    //     });
+    // },
+
+    // Above is a mix of promise and async functions... not a good practice
+    // Below is a refactor of above to be able to return results correctly based
+    // on: https://flaviocopes.com/how-to-return-result-asynchronous-function/
+    /* 
+    // Change FROM:
+    const asynchronousFunction = () => {
+        return fetch('./file.json').then(response => {
+        return response
+    })
+}
+    // Change TO:    
+    const asynchronousFunction = async () => {
+        const response = await fetch('./file.json')
+        return response
+        }    
+    */
+
+    fetchItemBufferOne: async function (_upc) {
+        App.upc = _upc;
+
+        try {
+            const instance = await App.contracts.SupplyChain.deployed()
+            console.log(`In returned instance... about to fetch Buf1`);
+            const result = await instance.fetchItemBufferOne.call(App.upc);
             console.log('fetchItemBufferOne:');
-            bufOne = result;
-            App.consoleLogFetch1Results(bufOne);
-            App.writeFetch1Fields(bufOne);
-        }).catch(function(err) {
+            App.consoleLogFetch1Results(result);
+            App.writeFetch1Fields(result); // Write WEB Page fields
+            return result;
+        }
+        catch (err) {
             console.log(err.message);
-        });
-        return bufOne;
+        };
     },
 
-    fetchItemBufferTwo: function (_upc) {
-        // event.preventDefault();
-        // var processId = parseInt($(event.target).data('id'));
-        App.upc = _upc;
-        let bufTwo;
+    // Refactor for async/await construct to provide return value
+    fetchItemBufferTwo: async function (_upc) {
+        App.upc = _upc; // TBD
 
-        App.contracts.SupplyChain.deployed().then(function(instance) {
+        try {
+            const instance = await App.contracts.SupplyChain.deployed()
             console.log(`In returned instance... about to fetch Buf2`);
-            return instance.fetchItemBufferTwo.call(App.upc);
-        }).then(function(result) {
+            const result = await instance.fetchItemBufferTwo.call(App.upc);
             console.log('fetchItemBufferTwo:');
-            bufTwo = result;
             App.consoleLogFetch2Results(result);
-            App.updateLocalItemState(bufTwo[5].c[0]); // Numeric state value from blockchain
-            App.writeFetch2Fields(bufTwo);
-    }).catch(function(err) {
-          console.log(err.message);
-        });
-        return bufTwo;
+            App.updateLocalItemState(result[5].c[0]); // Numeric state value from blockchain
+            App.writeFetch2Fields(result); // Write WEB Page fields
+            return result;
+        }
+        catch (err) {
+            console.log(err.message);
+        };
     },
 
-    fetchItemBufferThree: function (_upc) {
-        // event.preventDefault();
-        // var processId = parseInt($(event.target).data('id'));
-        App.upc = _upc;
-        let bufThree;
+    // Refactor for async/await construct to provide return value
+    fetchItemBufferThree: async function (_upc) {
+        App.upc = _upc; // TBD
 
-        App.contracts.SupplyChain.deployed().then(function(instance) {
+        try {
+            const instance = await App.contracts.SupplyChain.deployed()
             console.log(`In returned instance... about to fetch Buf3`);
-            return instance.fetchItemBufferThree.call(App.upc);
-        }).then(function(result) {
+            const result = await instance.fetchItemBufferThree.call(App.upc);
             console.log('fetchItemBufferThree:');
             App.consoleLogFetch3Results(result);
-            bufThree = result;
-        }).catch(function(err) {
+            return result;
+        }
+        catch (err) {
             console.log(err.message);
-            const testStringDOM = 
-            App.sku+
-            App.upc+
-            App.currItemOwnerID+ 
-            App.originFarmerID+ 
-            App.originFarmName+ 
-            App.originFarmInformation+ 
-            App.originFarmLatitude+ 
-            App.originFarmLongitude+ 
-            App.productNotes+ 
-            App.productPrice+ 
-            App.processorID+
-            App.distributorID+ 
-            App.retailerID+ 
-            App.consumerID+
-            App.localItemState+
-            App.productID+
-            App.retailerOrdered;
-  
-          console.log(`testStringDOM = ${testStringDOM}`)
-  
-        });
-        return bufThree;
+        };
     },
+
+
+
 
     fetchEvents: function () {
         if (typeof App.contracts.SupplyChain.currentProvider.sendAsync !== "function") {

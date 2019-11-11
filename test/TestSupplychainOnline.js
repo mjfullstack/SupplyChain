@@ -11,7 +11,8 @@ contract('SupplyChainOnline', function(accounts) {
     // const ownerID = accounts[0]
     // const currItemOwnerID = accounts[0] // was ownerID. I believe this is best renamed to currItemOwnerID
     const currItemOwnerID = emptyAddress // was ownerID. I believe this is best renamed to currItemOwnerID
-    const originGrowerID = accounts[1]
+    // const originGrowerID = accounts[1]
+    const originGrowerID = accounts[0]   // Test like app.js does, ALL FROM SAME ADDRESS
     const originFarmName = "John Doe"
     const originFarmInformation = "Yarray Valley"
     const originFarmLatitude = "-38.239770"
@@ -22,10 +23,15 @@ contract('SupplyChainOnline', function(accounts) {
     // const productPrice = web3.utils.toWei("1", "ether") // truffle version 5, web3 1.0.x
     const productPrice = web3.toWei("1", "ether")
     var itemState = 0
-    const processorID = accounts[2]
-    const distributorID = accounts[3]
-    const retailerID = accounts[4]
-    const consumerID = accounts[5]
+    // const processorID = accounts[2]
+    // const distributorID = accounts[3]
+    // const retailerID = accounts[4]
+    // const consumerID = accounts[5]
+    // Test like app.js does, ALL FROM SAME ADDRESS
+    const processorID = accounts[0]
+    const distributorID = accounts[0]
+    const retailerID = accounts[0]
+    const consumerID = accounts[0]
 
     ///Available Accounts
     ///==================
@@ -40,13 +46,22 @@ contract('SupplyChainOnline', function(accounts) {
     ///(8) 0xe07b5ee5f738b2f87f88b99aac9c64ff1e0c7917
     ///(9) 0xbd3ff2e3aded055244d66544c9c059fa0851da44
 
+    // console.log("ganache-cli accounts used here...")
+    // console.log("Contract Owner: accounts[0] ", accounts[0])
+    // console.log("Grower: accounts[1] ", accounts[1])
+    // console.log("Processor: accounts[2] ", accounts[2])
+    // console.log("Distributor: accounts[3] ", accounts[3])
+    // console.log("Retailer: accounts[4] ", accounts[4])
+    // console.log("Consumer: accounts[5] ", accounts[5])
+
+    // Test like app.js does, ALL FROM SAME ADDRESS
     console.log("ganache-cli accounts used here...")
     console.log("Contract Owner: accounts[0] ", accounts[0])
-    console.log("Grower: accounts[1] ", accounts[1])
-    console.log("Processor: accounts[2] ", accounts[2])
-    console.log("Distributor: accounts[3] ", accounts[3])
-    console.log("Retailer: accounts[4] ", accounts[4])
-    console.log("Consumer: accounts[5] ", accounts[5])
+    console.log("Grower: accounts[1] ", accounts[0])
+    console.log("Processor: accounts[2] ", accounts[0])
+    console.log("Distributor: accounts[3] ", accounts[0])
+    console.log("Retailer: accounts[4] ", accounts[0])
+    console.log("Consumer: accounts[5] ", accounts[0])
 
     // 1st Test
     it("Testing smart contract function plantItem() that allows a GROWER to PLANT a crop", async() => {
