@@ -94,7 +94,7 @@ TxnHash:
 
 # ONLY ON LOCAL NETWORK
 ### EIGHTH Deployment: (ganache GUI mnemonic matches truffle-config.js deploy mnemonic) 
-From Etherscan:
+From Ganache GUI:
 
 Address:
 0x0d85295e9b0f87a506d3ce71b69f996e55746352
@@ -104,6 +104,33 @@ Contract:
 
 TxnHash:
 0x131f04e1b00c66b6686a0f22c106248c5e89f1cd4cff5277a2827d581b115fb2
+
+# ONLY ON LOCAL NETWORK
+### NINTH Deployment: (ganache GUI mnemonic matches truffle-config.js deploy mnemonic) 
+From Ganache GUI:
+
+Address:
+0x0d85295e9b0f87a506d3ce71b69f996e55746352
+
+Contract:
+0xc302A94C3a9b10610C4E164CfEd97977979B8e2c
+
+TxnHash:
+0x4FeaE7C7BA78AEA81163A6dFA46998EFBD24478540fFD2D6d9332444451B07f3
+
+
+# ONLY ON LOCAL NETWORK
+### TENTH Deployment: (ganache GUI mnemonic matches truffle-config.js deploy mnemonic) 
+From Ganache GUI:
+
+Address:
+0x0d85295e9b0f87a506d3ce71b69f996e55746352
+
+Contract:
+0xaf5f775ec2989e9544d82293b4c0a07d593939ce
+
+TxnHash:
+0x1fa770a4b37edf6b6714e3aab426800cca22ef809a5dd24c845187fe2313237b
 
 
 

@@ -414,7 +414,25 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     items[_upc].retailerID = retailer;
     items[_upc].retailerOrdered = 1;
     // Reflect ordered status in productID for DAPP presentation...
-    // items[_upc].productID = items[_upc].productID + items[_upc].retailerOrdered; // Odd numbers indicate item has been ordered!
+    // items[_upc].productID = items[_upc].productID + 1; // Odd numbers indicate item has been ordered!
+    // NOTE TEMP: This (sku - 1) won't work except for specific test case
+    //      Problem with it returning an object instead of  a number
+    // FAILURES - RESULTS IN OBJ...
+    // uint itemSku = items[_upc].sku;
+    // items[_upc].productID = uint(1000000*itemSku) + uint(100*_upc) + uint(1); // sku000upc00 format
+    // uint itemProductID = uint(items[_upc].productID  + uint(1));
+    //// Worked-1
+    //1// items[_upc].productID = uint(items[_upc].productID ; // + uint(1));
+    //// Worked-2
+    //2// uint itemProductID = items[_upc].productID;
+    //2// items[_upc].productID = itemProductID; // sku000upc00 format
+    //// Worked-3
+    //3// uint itemProductID = uint(items[_upc].productID);
+    //3// items[_upc].productID = uint(itemProductID); // sku000upc00 format
+    // FAILS-4: WON'T RESULT IN a uint; RESULTS in obj
+    //4// uint itemProductID = uint( uint(items[_upc].productID) + uint(1) );
+    //4// items[_upc].productID = uint(itemProductID); // sku000upc00 format
+
     // Emit the proper event
     emit RetailerOrdered(_upc);
   }
@@ -630,4 +648,21 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
       consumerID
     );
   }
+
+  // Define a function 'fetchItemBufferThree' that fetches the data
+  function fetchItemBufferThree(uint _upc) public view returns 
+    (
+      uint    productID,
+      uint    retailerOrdered
+    )
+  {
+    productID = items[_upc].productID;
+    retailerOrdered = items[_upc].retailerOrdered;
+    return
+    (
+      productID,
+      retailerOrdered
+    );
+  }
+  
 }
