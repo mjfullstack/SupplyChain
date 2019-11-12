@@ -84,6 +84,12 @@ contract('SupplyChainOnline', function(accounts) {
             eventEmitted = true
         })
 
+        // Watch the emitted event LOGGING()
+        var event = supplyChain.Logging()
+        await event.watch((err, res) => {
+            console.log(res);
+        })
+
         // Mark an item as Planted by calling function plantItem()
         // await supplyChain.plantItem(upc, originGrowerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes, {from: originGrowerID})
         await supplyChain.plantItem(upc, originGrowerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes)

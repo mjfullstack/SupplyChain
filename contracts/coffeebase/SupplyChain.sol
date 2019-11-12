@@ -90,7 +90,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   // Define ONE event for marking a item as ordered by a retailer
   event RetailerOrdered(uint upc);
   // Define debugging event
-  event Logging(address val1, State val2, uint val3);
+  // event Logging(string message, address val1, State val2, uint val3);
+  event Logging(string message);
 
   // Define a modifer that checks to see if msg.sender == owner of the contract
   modifier onlyOwner() {
@@ -99,7 +100,6 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   }
 
   // Define a modifer that verifies the Caller
-  // MWJ: I believe this modifier / function
   modifier verifyCaller (address _address) {
     require(msg.sender == _address); 
     _;
@@ -265,7 +265,12 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   public 
   {
     // Add the originGrowerID as a grower AS WELL AS setting items[_upc].originGrowerID
-    // MWJGAS addGrower(_originGrowerID);
+    // MWJGAS 
+    addGrower(_originGrowerID);    
+    // Preferred construct; however it fails truffle test for out of gas.
+    // if ( !isGrower(_originGrowerID) ) { // This check also runs out of gas if included
+        // addGrower(_originGrowerID);
+    // }
     // Add the new item as part of Harvest
     items[_upc] = Item( 
       { sku: sku, 
@@ -289,7 +294,9 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
         consumerID: address(0)
       } );
     // Emit debug event
-    // emit Logging(items[_upc].originGrowerID, items[_upc].itemState, items[_upc].upc);
+    // emit Logging("Hello World!");
+    // emit Logging("packItem: origGrowID, state, upc: ", items[_upc].originGrowerID, items[_upc].itemState, items[_upc].upc);
+    // emit Logging("packItem: msg.sender, state, upc: ", msg.sender,                 items[_upc].itemState, items[_upc].upc);
     // Increment sku
     sku = sku + 1;
     // Emit the appropriate event
@@ -302,7 +309,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   planted(_upc) 
   // Call modifier to verify caller of this function
   onlyGrower // checking that the grower is on the list
-  // MWJGAS verifyCaller(items[_upc].originGrowerID) // Specific grower for THIS upc
+  // MWJGAS 
+  verifyCaller(items[_upc].originGrowerID) // Specific grower for THIS upc
   public 
   {
     // Update the appropriate fields

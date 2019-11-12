@@ -66,6 +66,10 @@ contract('SupplyChainInstore', function(accounts) {
     // 1st Test
     it("Testing smart contract function plantItem() that allows a GROWER to PLANT a crop", async() => {
         const supplyChain = await SupplyChain.deployed()
+        // Show size of contract
+        console.log("Show size of contract via deployedBytecode.length:")
+        console.log(supplyChain.constructor._json.deployedBytecode.length);
+
 
         // Add Roles via their addresses
         // THIS IS NOW DONE IN THE FUNCTIONS ON THE BLOCKCHAIN
@@ -82,6 +86,12 @@ contract('SupplyChainInstore', function(accounts) {
         var event = supplyChain.Planted()
         await event.watch((err, res) => {
             eventEmitted = true
+        })
+
+        // Watch the emitted event LOGGING()
+        var event = supplyChain.Logging()
+        await event.watch((err, res) => {
+            console.log(res);
         })
 
         // Mark an item as Planted by calling function plantItem()
