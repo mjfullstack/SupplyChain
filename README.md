@@ -151,6 +151,19 @@ TxnHash:
 
 
 
+# ONLY ON LOCAL NETWORK
+## TWELFTH Deployment: 
+### Before verifyCaller() addRole() Feature
+From Ganache GUI:
+
+Address:
+0x0d85295e9b0f87a506d3ce71b69f996e55746352
+
+Contract:
+0x9c4089e8dfda1458752f08c8372eecc8000e5be4
+
+TxnHash:
+0xd6f5adc9fdd950d89e07c3d29b1922ddb496581f67120992844b0071978df49b
 
 
 
