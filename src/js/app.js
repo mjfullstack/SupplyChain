@@ -5,7 +5,7 @@ App = {
     sku: 0,
     upc: 0,
     metamaskAccountID: "0x0000000000000000000000000000000000000000",
-    ownerID: "0x0000000000000000000000000000000000000000",
+    currItemOwnerID: "0x0000000000000000000000000000000000000000",
     originFarmerID: "0x0000000000000000000000000000000000000000",
     originFarmName: null,
     originFarmInformation: null,
@@ -23,7 +23,7 @@ App = {
     // Unplanted, Planted, Grown, Harvested, Collected, Processed
     // Packed, ForSale, Sold, Shipped, Received, ShelvesStocked,
     // PurchaseInstore, PurchaseOnline, ConsumerReceived
-    localRetailerOrdered: 0,
+    retailerOrdered: 0,
 
     init: async function () {
         App.readFormN(11);
@@ -32,18 +32,20 @@ App = {
         return await App.initWeb3();
     },
 
+    // Write Only Section 6, fetch1 button fields
     writeFetch1Fields: function (_fetch1Res) {
         $("#sku6").val(_fetch1Res[0].c[0]);
         $("#upc6").val(_fetch1Res[1].c[0]);
-        $("#ownerID6").val(_fetch1Res[2]);
+        $("#ownerID6").val(_fetch1Res[2]); // App.currItemOwnerID
         $("#originFarmerID6").val(_fetch1Res[3]);
         $("#originFarmName6").val(_fetch1Res[4]);
         $("#originFarmInformation6").val(_fetch1Res[5]);
-        $("#originFarmLongitude6").val(_fetch1Res[6]);
-        $("#originFarmLatitude6").val(_fetch1Res[7]);
+        $("#originFarmLatitude6").val(_fetch1Res[6]);
+        $("#originFarmLongitude6").val(_fetch1Res[7]);
         $("#processorID6").val(_fetch1Res[8]);
     },
 
+    // Write Only Section 7, fetch2 button fields
     writeFetch2Fields: function (_fetch2Res) {
         $("#sku7").val(_fetch2Res[0].c[0]);
         $("#upc7").val(_fetch2Res[1].c[0]);
@@ -57,6 +59,7 @@ App = {
         $("#consumerID7").val(_fetch2Res[8]);
     },
     
+    // Write Sections 1 through 5 fields
     writePageFields: function () {
         $("#sku1").val(App.sku); // This gets assigned in SupplyChain.sol
         $("#sku2").val(App.sku);
@@ -70,7 +73,7 @@ App = {
         $("#upc4").val(App.upc);
         $("#upc5").val(App.upc);
 
-        $("#ownerID1").val(App.ownerID);
+        $("#ownerID1").val(App.currItemOwnerID);
 
         $("#originFarmerID1").val(App.originFarmerID);
         $("#originFarmerID2").val(App.originFarmerID);
@@ -126,7 +129,7 @@ App = {
         console.log(
             App.sku,
             App.upc,
-            App.ownerID, 
+            App.currItemOwnerID, 
             App.originFarmerID, 
             App.originFarmName, 
             App.originFarmInformation, 
@@ -139,48 +142,48 @@ App = {
             App.consumerID,
             App.localItemState,
             App.productID,
-            App.localRetailerOrdered
+            App.retailerOrdered
         );
     },
 
     readFormN: function (_procId) {
         let _n;
         switch(_procId) {
-            case 11: // grower
-            case 12: // grower
-            case 1: // grower
+            case 11: // grower PLANT
+            case 12: // grower GROW
+            case 1:  // grower HARVEST
                 _n = 1;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 13: // processor
-            case 2: // processor
-            case 3: // processor
-            case 4: // processor
-            case 6: // processor
+            case 13: // processor COLLECT
+            case 2:  // processor PROCESS
+            case 3:  // processor PACK
+            case 4:  // processor SELL
+            case 6:  // processor SHIP
                 _n = 2;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 5: // distributor
+            case 5:  // distributor BUY
                 _n = 3;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 14: // retailer
-            case 7: // retailer
-            case 15: // retailer
+            case 14: // retailer ORDER
+            case 7:  // retailer RECEIVE
+            case 15: // retailer STOCK SHELVES
                 _n = 4;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 8: // consumer
-            case 16: // consumer
-            case 17: // consumer
+            case 8:  // consumer PURCHASE INSTORE
+            case 16: // consumer PURCHASE ONLINE
+            case 17: // consumer MARK RECEIVED
                 _n = 5;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 9: // fetch 1
+            case 9:  // fetch 1
                 _n = 6;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
-            case 10: // fetch 2
+            case 10:  // fetch 2
                 _n = 7;
                 console.log(`readFormN _procId = ${_procId}, _n = ${_n}`)
                 break;
@@ -188,9 +191,9 @@ App = {
 
         if (_n == 1) {
             App.upc = $("#upc"+_n).val();
-            App.sku = 11*App.upc; // This gets assigned in SupplyChain.sol
-            App.productID = 10000000000*App.upc + 100*App.sku + App.localRetailerOrdered; // This gets assigned in SupplyChain.sol
-            App.ownerID = $("#originFarmerID"+_n).val();
+            App.sku = App.upc; // This gets assigned in SupplyChain.sol
+            App.productID = 10000000000*App.upc + 100*App.sku; // This gets assigned in SupplyChain.sol
+            App.currItemOwnerID = $("#originFarmerID"+_n).val();
             App.originFarmerID = $("#originFarmerID"+_n).val();
             App.originFarmName = $("#originFarmName"+_n).val();
             App.originFarmInformation = $("#originFarmInformation"+_n).val();
@@ -199,28 +202,28 @@ App = {
             App.productNotes = $("#productNotes"+_n).val();
         }
         if (_n == 2) {
-            App.processorID = $("#processorID2"+_n).val();
-            App.ownerID = $("#processorID2"+_n).val();
+            App.processorID = $("#processorID"+_n).val();
+            App.productPrice = $("#productPrice"+_n).val();
+            App.currItemOwnerID = $("#processorID"+_n).val();
         }
         if (_n == 3) {
-            App.productPrice = $("#productPrice3"+_n).val();
-            App.distributorID = $("#distributorID3"+_n).val();
+            App.distributorID = $("#distributorID"+_n).val();
             if (_procId == 5) {
-                App.ownerID = $("#retailerID4"+_n).val();
+                App.currItemOwnerID = $("#retailerID"+_n).val();
             }
         }
         if (_n == 4) {
-            App.retailerID = $("#retailerID4"+_n).val();
-            App.ownerID = $("#retailerID4"+_n).val();
+            App.retailerID = $("#retailerID"+_n).val();
+            App.currItemOwnerID = $("#retailerID"+_n).val();
         }
         if (_n=5) {
-            App.consumerID = $("#consumerID5"+_n).val();
+            App.consumerID = $("#consumerID"+_n).val();
         }
 
         console.log(
             App.sku,
             App.upc,
-            App.ownerID, 
+            App.currItemOwnerID, 
             App.originFarmerID, 
             App.originFarmName, 
             App.originFarmInformation, 
@@ -233,7 +236,7 @@ App = {
             App.retailerID, 
             App.consumerID,
             App.localItemState,
-            App.localRetailerOrdered,
+            App.retailerOrdered,
             App.productID,
         );
 
@@ -242,7 +245,7 @@ App = {
         const testStringDOM = 
         App.sku+
         App.upc+
-        App.ownerID+ 
+        App.currItemOwnerID+ 
         App.originFarmerID+ 
         App.originFarmName+ 
         App.originFarmInformation+ 
@@ -265,6 +268,7 @@ App = {
 
     },
 
+    // Converts blockchain itemState to text string
     updateLocalItemState: (_chainState) => {
         switch(_chainState) {
             case 0: App.localItemState = "Unplanted"; // grower
@@ -300,14 +304,40 @@ App = {
         }
     },
 
+    updateOrderedStatusButton: () => {
+        // PLACE the values and adjust buttons accordingly...
+        if (App.retailerOrdered) {
+            $('#button-retailer-ordered-display').prop('disabled', false); // enabled
+            $('#button-retailer-ordered-display').addClass('btn-success').removeClass('btn-warning');
+            $('#button-retailer-ordered-display').text('ORDERED');
+            $('#button-order').removeClass('btn-success').addClass('btn-default'); // PREVIOUS Button
+            // $('#button-order').prop('disabled', true); // We removed all disables for all buttons
+            // DON'T call updateActiveButton since not a App.localItemState change
+            if (App.localItemState == "ForSale") {
+                $('#button-buy-wholesale').removeClass('btn-default').addClass('btn-success'); // Makes it GREEN!
+                $('#button-buy-wholesale').prop('disabled', false); // enables
+            }
+        } else {
+            $('#button-retailer-ordered-display').prop('disabled', true); // disabled
+            $('#button-retailer-ordered-display').addClass('btn-warning').removeClass('btn-success');
+            $('#button-retailer-ordered-display').text('NOT Ordered');
+            $('#button-order').removeClass('btn-default').addClass('btn-success'); // PREVIOUS Button???
+            // if (App.localItemState == "ForSale") {
+            //     $('#button-buy-wholesale').removeClass('btn-default').addClass('btn-success'); // Makes it GREEN!
+            //     $('#button-buy-wholesale').prop('disabled', false); // enables
+            // }
+        }
+    },
+
+
     updateActiveButton: function (_currState) {
         App.unsetActiveAllButtons();
         // Possible States:
         // Unplanted, Planted, Grown, Harvested, Collected, Processed
         // Packed, ForSale, Sold, Shipped, Received, ShelvesStocked,
         // PurchaseInstore, PurchaseOnline, ConsumerReceived
-        // localRetailerOrdered: 0, // SEPARATE ELEMENT, See ProductID mod(2) = ordered
-       
+        // retailerOrdered: 0, // SEPARATE ELEMENT, See ProductID mod(2) = ordered
+        App.updateOrderedStatusButton();
         switch(_currState) {
             case "Unplanted": // grower
                 $('#button-plant').removeClass('btn-default').addClass('btn-success'); // Makes it GREEN!
@@ -349,7 +379,7 @@ App = {
                 break;
             case "ForSale": // processor
                 $('#button-forsale').removeClass('btn-success').addClass('btn-default'); // PREVIOUS Button
-                if (App.localRetailerOrdered) {
+                if (App.retailerOrdered) {
                     $('#button-buy-wholesale').removeClass('btn-default').addClass('btn-success'); // Makes it GREEN!
                     $('#button-buy-wholesale').prop('disabled', false); // enables
                 }
@@ -418,7 +448,7 @@ App = {
         $('#button-receive-retail').removeClass('btn-success').addClass('btn-default');
     },
 
-    presentFetch1Results: function(_result) {
+    consoleLogFetch1Results: function(_result) {
         console.log("res0-SKU", _result[0].c[0]);
         console.log("res1-UPC", _result[1].c[0]);
         console.log("res2-CurrOwnID", _result[2]);
@@ -430,7 +460,7 @@ App = {
         console.log("res8-ProcID", _result[8]);
     },
 
-    presentFetch2Results: function(_result) {
+    consoleLogFetch2Results: function(_result) {
         console.log("res0-SKU", _result[0].c[0]);
         console.log("res1-UPC", _result[1].c[0]);
         console.log("res2-ProdID", _result[2].c[0]);
@@ -442,10 +472,15 @@ App = {
         console.log("res8-ConsID", _result[8]);
     },
 
-    updateAppFieldsFetch1: (_result) => {
+    consoleLogFetch3Results: function(_result) {
+        console.log("res0-ProdID", _result[0].c[0]);
+        console.log("res1-retailerOrd", _result[1].c[0]);
+    },
+
+    updateAppVarsFetch1: (_result) => {
         App.sku                     = _result[0].c[0];  // This gets assigned in SupplyChain.sol
         App.upc                     = _result[1].c[0];
-        App.ownerID                 = _result[2];       // CURRENT Owner
+        App.currItemOwnerID         = _result[2];       // CURRENT ITEM Owner
         App.originFarmerID          = _result[3];
         App.originFarmName          = _result[4];
         App.originFarmInformation   = _result[5];
@@ -454,10 +489,10 @@ App = {
         App.processorID             = _result[8];
     },
 
-    updateAppFieldsFetch2: (_result) => {
+    updateAppVarsFetch2: (_result) => {
         App.sku                     = _result[0].c[0];  // This gets assigned in SupplyChain.sol
         App.upc                     = _result[1].c[0];
-        App.productID               = _result[2].c[0] + App.localRetailerOrdered; // This gets assigned in SupplyChain.sol
+        App.productID               = _result[2].c[0]; // This gets assigned in SupplyChain.sol
         App.productNotes            = _result[3];
         App.productPrice            = _result[4].c[0];
         App.productState            = _result[5].c[0];
@@ -466,26 +501,38 @@ App = {
         App.consumerID              = _result[8];
     },
 
+    updateAppVarsFetch3: (_result) => {
+        // App.productID               = _result[0].c[0]; // This gets assigned in SupplyChain.sol
+        App.retailerOrdered         = _result[1].c[0];
+    },
+
+    // Get ALL fields from the blockchain and reflect in DAPP page
     reflectBlockchainInApp: async (_dispUPC) => {
         // return await App.fetchItemBufferOne(App.upc); // ORIG
-        let case18bufOne = await App.fetchItemBufferOne(App.upc);
+        let case18bufOne = await App.fetchItemBufferOne(_dispUPC);
         console.log("case18bufOne:");
-        console.log(case18bufOne);
-        App.presentFetch1Results(case18bufOne);
-        App.updateAppFieldsFetch1(case18bufOne);
-        // App.updateActiveButton(App.productState);
-        // App.writePageFields();
+        console.log(case18bufOne); // UNDEFINED, so next line NOT done correctly here
+        await App.consoleLogFetch1Results(case18bufOne); // Done correctly in fetchItemBufferOne
+        await App.updateAppVarsFetch1(case18bufOne); // Update App.x VARS
 
         // return await App.fetchItemBufferTwo(App.upc); // ORIG
-        let case18bufTwo = await App.fetchItemBufferTwo(App.upc); // ORIG
+        let case18bufTwo = await App.fetchItemBufferTwo(_dispUPC);
         console.log("case18bufTwo:");
         console.log(case18bufTwo);
-        App.presentFetch2Results(case18bufTwo);
-        App.updateAppFieldsFetch2(case18bufTwo);
-        App.updateLocalItemState(App.productState);
-        App.updateActiveButton(App.localItemState);
-        App.writePageFields();
-        return ( [case18bufOne, case18bufTwo] );
+        await App.consoleLogFetch2Results(case18bufTwo);
+        await App.updateAppVarsFetch2(case18bufTwo);
+        
+        // NEW: Adding retailerOrdered
+        let case18bufThree = await App.fetchItemBufferThree(_dispUPC);
+        console.log("case18bufThree:");
+        console.log(case18bufThree);
+        await App.consoleLogFetch3Results(case18bufThree);
+        await App.updateAppVarsFetch3(case18bufThree);
+
+        await App.updateLocalItemState(App.productState); // Get numeric to string
+        await App.updateActiveButton(App.localItemState); // Present string on page
+        await App.writePageFields();
+        return await ( [case18bufOne, case18bufTwo, case18bufThree] );
 },
 
     initWeb3: async function () {
@@ -535,14 +582,15 @@ App = {
         var jsonSupplyChain='../../build/contracts/SupplyChain.json';
         
         /// JSONfy the smart contracts
-        $.getJSON(jsonSupplyChain, function(data) {
+        $.getJSON(jsonSupplyChain, async function(data) {
             console.log('data',data);
             var SupplyChainArtifact = data;
             App.contracts.SupplyChain = TruffleContract(SupplyChainArtifact);
             App.contracts.SupplyChain.setProvider(App.web3Provider);
             
-            App.fetchItemBufferOne(App.upc); // MWJ - Changed function to take UPC as input parameter
-            App.fetchItemBufferTwo(App.upc); // MWJ - Provide UPC as input argument
+            await App.fetchItemBufferOne(App.upc); // MWJ - Changed function to take UPC as input parameter
+            await App.fetchItemBufferTwo(App.upc); // MWJ - Provide UPC as input argument
+            await App.fetchItemBufferThree(App.upc); // MWJ - Provide UPC as input argument
             App.fetchEvents();
 
         });
@@ -565,10 +613,7 @@ App = {
         switch(processId) {
             case 1:
                 console.log(`processId = ${processId}`);
-                // return await App.harvestItem(event);
-                await App.harvestItem(event);
-                App.reflectBlockchainInApp(App.upc);
-                return
+                return await App.harvestItem(event);
                 break;
             case 2:
                 console.log(`processId = ${processId}`);
@@ -580,23 +625,23 @@ App = {
                 break;
             case 4:
                 console.log(`processId = ${processId}`);
-                return await App.sellItem(event);
+                return  await App.sellItem(event);
                 break;
             case 5:
                 console.log(`processId = ${processId}`);
-                return await App.buyItem(event);
+                return  await App.buyItem(event);
                 break;
             case 6:
                 console.log(`processId = ${processId}`);
-                return await App.shipItem(event);
+                return  await App.shipItem(event);
                 break;
             case 7:
                 console.log(`processId = ${processId}`);
-                return await App.receiveItem(event);
+                return  await App.receiveItem(event);
                 break;
             case 8: // purchaseInstoreItem() INSTORE
                 console.log(`processId = ${processId}`);
-                return await App.purchaseInstoreItem(event);
+                return  await App.purchaseInstoreItem(event);
                 break;
             case 9: // fetch 1
                 console.log(`processId = ${processId}`);
@@ -604,10 +649,7 @@ App = {
                 console.log('upc6', _upc6); // MWJ
                 // return await App.fetchItemBufferOne(App.upc); // ORIG
                 let case9result = await App.fetchItemBufferOne(_upc6);
-                // console.log("case9result:");
-                // console.log(case9result);
-                // App.presentResults(case9result);
-                App.writeFetch1Fields(case9result);
+                await App.writeFetch1Fields(case9result);
                 return case9result;
                 break;
             case 10: // fetch 2
@@ -618,11 +660,8 @@ App = {
                 console.log('App.upc', App.upc); // MWJ
                 // return await App.fetchItemBufferTwo(App.upc); // ORIG
                 let case10result = await App.fetchItemBufferTwo(_upc7);
-                // console.log("case10result:");
-                // console.log(case10result);
-                // App.presentResults(case10result);
-                App.updateLocalItemState(case10result[5].c[0]); // Numeric state value from blockchain
-                App.writeFetch2Fields(case10result);
+                // await App.updateLocalItemState(case10result[5].c[0]); // Numeric state value from blockchain
+                await App.writeFetch2Fields(case10result);
                 return case10result;
                 break;
             case 11: // plantItem()
@@ -660,64 +699,18 @@ App = {
 
                 let case18DisplayBuf = [];
                 // Call to reflect Blockchain State in App fields/page
-                case18DisplayBuf = App.reflectBlockchainInApp(App.upc);
+                case18DisplayBuf = await App.reflectBlockchainInApp(App.upc);
                 return case18DisplayBuf;
-
-                // // return await App.fetchItemBufferOne(App.upc); // ORIG
-                // let case18bufOne = await App.fetchItemBufferOne(App.upc);
-                // console.log("case18bufOne:");
-                // console.log(case18bufOne);
-                // App.presentFetch1Results(case18bufOne);
-                // App.updateAppFieldsFetch1(case18bufOne);
-                // // App.updateActiveButton(App.productState);
-                // // App.writePageFields();
-
-                // // return await App.fetchItemBufferTwo(App.upc); // ORIG
-                // let case18bufTwo = await App.fetchItemBufferTwo(App.upc); // ORIG
-                // console.log("case18bufTwo:");
-                // console.log(case18bufTwo);
-                // App.presentFetch2Results(case18bufTwo);
-                // App.updateAppFieldsFetch2(case18bufTwo);
-                // App.updateLocalItemState(App.productState);
-                // App.updateActiveButton(App.localItemState);
-                // App.writePageFields();
-                // return ( [case18bufOne, case18bufTwo] );
                 break;
-            }
+        }
     },
 
-    plantItem: function(event) {
+    plantItem: async function(event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
-        App.readFormN(processId);
-        /************** SAVE FOR TESTING *****************/
-        // TEMP: Set values that will eventually be returned in 'result'
-        // When they are, we'll place the values received into the form on the page.
-        // SET the values temporarily...
-        App.localItemState = "Planted";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-        // $('#button-plant').prop('disabled', true);
-        // $('#button-grow').addClass('btn-success'); // .removeClass('btn-success');
+        await App.readFormN(processId);
 
-        console.log(`App.upc: ${App.upc}`); 
-        console.log(`App.ownerID: ${App.ownerID}`);
-        console.log(`App.originFarmName: ${App.originFarmName}`);
-        console.log(`App.originFarmInformation: ${App.originFarmInformation}`);
-        console.log(`App.originFarmLatitude: ${App.originFarmLatitude}`);
-        console.log(`App.originFarmLongitude: ${App.originFarmLongitude}`);
-        console.log(`App.productNotes: ${App.productNotes}`);
-        console.log(`App.processorID: ${App.processorID}`);
-        console.log(`App.distributorID: ${App.distributorID}`);
-        console.log(`App.retailerID: ${App.retailerID}`);
-        console.log(`App.consumerID: ${App.consumerID1}`);
-        console.log(`App.localItemState: ${App.localItemState}`);
-
-/************** SAVE FOR TESTING *****************/
-        App.contracts.SupplyChain.deployed().then(function(instance) {
+        await App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.plantItem(
                 App.upc, 
                 App.metamaskAccountID, 
@@ -730,8 +723,9 @@ App = {
             );
         }).then(function(result) {
             $("#ftc-item").text(`plantItem, ${result}`);
-            console.log(`plantItem, ${result}`);
+            console.log(`plantItem:`);
             console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -742,20 +736,13 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
 
-        // SET the values...
-        App.localItemState = "Grown";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.growItem(App.upc, {from: App.metamaskAccountID} );
         }).then(function(result) {
             $("#ftc-item").text(`growItem, ${result}`);
-            console.log(`growItem, ${result}`);
+            console.log(`growItem:`);
             console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -766,20 +753,13 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "Harvested";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.harvestItem(App.upc, {from: App.metamaskAccountID} );
         }).then(function(result) {
             $("#ftc-item").text(`harvestItem, ${result}`);
-            console.log(`harvestItem, ${result}`);
+            console.log(`harvestItem:`);
             console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -788,22 +768,17 @@ App = {
     collectItem: function(event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
-        
-        // SET the values...
-        App.localItemState = "Collected";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.readFormN(processId);
+        console.log(`App.processorID: ${App.processorID}`);
+        console.log(`App.currItemOwnerID: ${App.currItemOwnerID}`);
+
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.collectItem(App.upc, {from: App.metamaskAccountID} );
+            return instance.collectItem(App.upc, App.processorID, {from: App.metamaskAccountID} );
         }).then(function(result) {
             $("#ftc-item").text(`collectItem, ${result}`);
-            console.log(`collectItem, ${result}`);
+            console.log(`collectItem:`);
             console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -814,19 +789,13 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "Processed";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.processItem(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`processItem, ${result}`);
-            console.log(`processItem, ${result}`);
+            console.log(`processItem:`);
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -837,19 +806,13 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "Packed";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.packItem(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`packItem, ${result}`);
-            console.log(`packItem, ${result}`);
+            console.log(`packItem:`);
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -860,21 +823,15 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "ForSale";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             const productPrice = web3.toWei(1, "ether");
             console.log(`productPrice, ${productPrice}`);
             return instance.sellItem(App.upc, App.productPrice, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`sellItem, ${result}. productPrice, ${productPrice}`);
-            console.log(`sellItem, ${result}`);
+            console.log(`sellItem:`);
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -886,25 +843,16 @@ App = {
         App.readFormN(processId);
         
         // SET the values... 
-        // NOTE: This is NOT a App.localItemState change so handle locally
-        App.localRetailerOrdered = 1;
-        // PLACE the values and adjust buttons accordingly...
-        $('#button-retailer-ordered-display').prop('disabled', false); // enabled
-        $('#button-retailer-ordered-display').addClass('btn-success').removeClass('btn-warning');
-        $('#button-retailer-ordered-display').text('ORDERED')
-        $('#button-order').removeClass('btn-success').addClass('btn-default'); // PREVIOUS Button
-        // $('#button-order').prop('disabled', true); // We removed all disables for all buttons
-        // DON'T call updateActiveButton since not a App.localItemState change
-        if (App.localItemState == "ForSale") {
-            $('#button-buy-wholesale').removeClass('btn-default').addClass('btn-success'); // Makes it GREEN!
-            $('#button-buy-wholesale').prop('disabled', false); // enables
-        }
+        // NOTE: This is NOT a App.localItemState change
+        // App.retailerOrdered = 1;
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.retailerOrder(App.upc, {from: App.metamaskAccountID});
+            return instance.retailerOrder(App.upc, App.retailerID, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`retailerOrder, ${result}`);
-            console.log(`retailerOrder, ${result}`);
+            console.log(`retailerOrder:`);
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -915,20 +863,14 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "Sold";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            const walletValue = web3.toWei(3, "ether");
-            return instance.buyItem(App.upc, {from: App.metamaskAccountID, value: walletValue});
+            const walletValue = web3.toWei(1, "ether");
+            return instance.buyItem(App.upc, App.distributorID, {from: App.metamaskAccountID, value: walletValue});
         }).then(function(result) {
             $("#ftc-item").text(`buyItem, ${result}`);
-            console.log(`buyItem, ${result}`);
+            console.log(`buyItem:`);
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -939,19 +881,13 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "Shipped";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.shipItem(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`shipItem, ${result}`);
-            console.log(`shipItem, ${result}`);
+            console.log(`shipItem:`);
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -962,19 +898,13 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "Received";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.receiveItem(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`receiveItem, ${result}`);
-            console.log(`receiveItem, ${result}`);
+            console.log(`receiveItem:`);
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -985,19 +915,13 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "ShelvesStocked";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.shelfStockItem(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`shelfStockItem, ${result}`);
-            console.log(`shelfStockItem, ${result}`);
+            console.log(`shelfStockItem:`);
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -1008,19 +932,13 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "PurchaseInstore";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.purchaseInstoreItem(App.upc, {from: App.metamaskAccountID});
+            return instance.purchaseInstoreItem(App.upc, App.consumerID, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`purchaseInstoreItem, ${result}`);
-            console.log('purchaseInstoreItem',result);
+            console.log('purchaseInstoreItem:');
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -1031,19 +949,13 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "PurchaseOnline";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.purchaseOnlineItem(App.upc, {from: App.metamaskAccountID});
+            return instance.purchaseOnlineItem(App.upc, App.consumerID, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`purchaseOnlineItem, ${result}`);
-            console.log('purchaseOnlineItem',result);
+            console.log('purchaseOnlineItem:');
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
@@ -1054,60 +966,107 @@ App = {
         var processId = parseInt($(event.target).data('id'));
         App.readFormN(processId);
         
-        // SET the values...
-        App.localItemState = "ConsumerReceived";
-        // PLACE the values on the page...
-        // $("#productState1").val(`${App.localItemState}`); // MWJ
-        App.writePageFields();
-        // Update Active Buttons per State
-        App.updateActiveButton(App.localItemState);
-
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.consumerReceivedItem(App.upc, {from: App.metamaskAccountID});
         }).then(function(result) {
             $("#ftc-item").text(`consumerReceivedItem, ${result}`);
-            console.log('consumerReceivedItem', result);
+            console.log('consumerReceivedItem:');
+            console.log(result);
+            App.reflectBlockchainInApp(App.upc);
         }).catch(function(err) {
             console.log(err.message);
         });
     },
 
+    // fetchItemBufferOne: async function (_upc) {
+    //     // event.preventDefault();
+    //     // var processId = parseInt($(event.target).data('id'));
+    //     App.upc = _upc;
+    //     // let bufOne;
+
+    //     await App.contracts.SupplyChain.deployed().then(async function(instance) {
+    //       console.log(`In returned instance... about to fetch Buf1`);
+    //       return instance.fetchItemBufferOne.call(App.upc);
+    //     }).then(async function(result) {
+    //         console.log('fetchItemBufferOne:');
+    //         // bufOne = result;
+    //         App.consoleLogFetch1Results(result);
+    //         App.writeFetch1Fields(result); // Write WEB Page fields
+    //         return await result;
+    //     }).catch(function(err) {
+    //         console.log(err.message);
+    //     });
+    // },
+
+    // Above is a mix of promise and async functions... not a good practice
+    // Below is a refactor of above to be able to return results correctly based
+    // on: https://flaviocopes.com/how-to-return-result-asynchronous-function/
+    /* 
+    // Change FROM:
+    const asynchronousFunction = () => {
+        return fetch('./file.json').then(response => {
+        return response
+    })
+}
+    // Change TO:    
+    const asynchronousFunction = async () => {
+        const response = await fetch('./file.json')
+        return response
+        }    
+    */
+
+    // Refactored to use async/await and try/catch
     fetchItemBufferOne: async function (_upc) {
-        // event.preventDefault();
-        // var processId = parseInt($(event.target).data('id'));
         App.upc = _upc;
-        let bufOne;
 
-        await App.contracts.SupplyChain.deployed().then(function(instance) {
-          console.log(`In returned instance... about to fetch Buf1`);
-          return instance.fetchItemBufferOne(App.upc);
-        }).then(function(result) {
-            // console.log('fetchItemBufferOne', result);
-            // App.presentResults(result);
-            bufOne = result;
-        }).catch(function(err) {
+        try {
+            const instance = await App.contracts.SupplyChain.deployed()
+            console.log(`In returned instance... about to fetch Buf1`);
+            const result = await instance.fetchItemBufferOne.call(App.upc);
+            console.log('fetchItemBufferOne:');
+            App.consoleLogFetch1Results(result);
+            // App.writeFetch1Fields(result); // Write WEB Page fields
+            return result;
+        }
+        catch (err) {
             console.log(err.message);
-        });
-        return bufOne;
+        };
     },
 
+    // Refactor for async/await construct to provide return value
     fetchItemBufferTwo: async function (_upc) {
-        // event.preventDefault();
-        // var processId = parseInt($(event.target).data('id'));
-        App.upc = _upc;
-        let bufTwo;
+        App.upc = _upc; // TBD
 
-        await App.contracts.SupplyChain.deployed().then(function(instance) {
+        try {
+            const instance = await App.contracts.SupplyChain.deployed()
             console.log(`In returned instance... about to fetch Buf2`);
-            return instance.fetchItemBufferTwo.call(App.upc);
-        }).then(function(result) {
-            // console.log('fetchItemBufferTwo', result);
-            // App.presentResults(result);
-            bufTwo = result;
-        }).catch(function(err) {
-          console.log(err.message);
-        });
-        return bufTwo;
+            const result = await instance.fetchItemBufferTwo.call(App.upc);
+            console.log('fetchItemBufferTwo:');
+            App.consoleLogFetch2Results(result);
+            App.updateLocalItemState(result[5].c[0]); // Numeric state value from blockchain
+            // App.writeFetch2Fields(result); // Write WEB Page fields
+            return result;
+        }
+        catch (err) {
+            console.log(err.message);
+        };
+    },
+
+    // Refactor for async/await construct to provide return value
+    fetchItemBufferThree: async function (_upc) {
+        App.upc = _upc; // TBD
+
+        try {
+            const instance = await App.contracts.SupplyChain.deployed()
+            console.log(`In returned instance... about to fetch Buf3`);
+            const result = await instance.fetchItemBufferThree.call(App.upc);
+            console.log('fetchItemBufferThree:');
+            App.consoleLogFetch3Results(result);
+            return result;
+        }
+        catch (err) {
+            console.log(err.message);
+        };
     },
 
     fetchEvents: function () {
@@ -1123,7 +1082,10 @@ App = {
         App.contracts.SupplyChain.deployed().then(function(instance) {
         var events = instance.allEvents(function(err, log){
           if (!err)
-            $("#ftc-events").append('<li>' + log.event + ' - ' + log.transactionHash + '</li>');
+          console.log("Event var = log:");
+          console.log(log);
+            // $("#ftc-events").append('<li>' + log.event + ' - ' + log.transactionHash + '</li>');
+            $("#ftc-events").append('<li>UPC: ' + log.args.upc + ' - '+ log.event + ' - ' + log.transactionHash + '</li>');
         });
         }).catch(function(err) {
           console.log(err.message);
