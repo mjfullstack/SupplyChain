@@ -293,7 +293,7 @@ App = {
             break;
             case 6: App.localItemState = "Packed"; // processor
             break;
-            case 7: App.localItemState = "ForSale"; // processor
+            case 7: App.localItemState = "For Sale"; // processor
             break;
             case 8: App.localItemState = "Sold"; // distributor
             break;
@@ -301,13 +301,13 @@ App = {
             break;
             case 10: App.localItemState = "Received"; // retailer
             break;
-            case 11: App.localItemState = "ShelvesStocked"; // retailer
+            case 11: App.localItemState = "Shelves Stocked"; // retailer
             break;
-            case 12: App.localItemState = "PurchaseInstore"; // consumer
+            case 12: App.localItemState = "Purchased Instore"; // consumer
             break;
-            case 13: App.localItemState = "PurchaseOnline"; // consumer
+            case 13: App.localItemState = "Purchased Online"; // consumer
             break;
-            case 14: App.localItemState = "ConsumerReceived"; // consumer
+            case 14: App.localItemState = "Consumer Received"; // consumer
             break;
         }
     },
@@ -520,7 +520,7 @@ App = {
         let case18bufOne = await App.fetchItemBufferOne(_dispUPC);
         console.log("case18bufOne:");
         console.log(case18bufOne); 
-        if (!case18bufOne) { // If undefined, report in only one location
+        if (!case18bufOne || (case18bufOne[1].c[0] == 0)) { // If undefined, report in only one location
             $("#upc1").val(0); // Zero means UPC is un-used / available
         } else {
             await App.consoleLogFetch1Results(case18bufOne); // Done correctly in fetchItemBufferOne
@@ -806,7 +806,8 @@ App = {
         App.readFormN(processId);
         
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.processItem(App.upc, {from: App.metamaskAccountID});
+            // return instance.processItem(App.upc, {from: App.metamaskAccountID});
+            return instance.processItem(App.upc, {from: App.processorID});
         }).then(function(result) {
             $("#ftc-item").text(`processItem, ${result}`);
             console.log(`processItem:`);
@@ -823,7 +824,8 @@ App = {
         App.readFormN(processId);
         
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.packItem(App.upc, {from: App.metamaskAccountID});
+            // return instance.packItem(App.upc, {from: App.metamaskAccountID});
+            return instance.packItem(App.upc, {from: App.processorID});
         }).then(function(result) {
             $("#ftc-item").text(`packItem, ${result}`);
             console.log(`packItem:`);
@@ -840,9 +842,11 @@ App = {
         App.readFormN(processId);
         
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            const productPrice = web3.toWei(1, "ether");
+            // const productPrice = web3.toWei(1, "ether");
+            const productPrice = web3.toWei(App.productPrice, "ether");
             console.log(`productPrice, ${productPrice}`);
-            return instance.sellItem(App.upc, App.productPrice, {from: App.metamaskAccountID});
+            // return instance.sellItem(App.upc, App.productPrice, {from: App.metamaskAccountID});
+            return instance.sellItem(App.upc, App.productPrice, {from: App.processorID});
         }).then(function(result) {
             $("#ftc-item").text(`sellItem, ${result}. productPrice, ${productPrice}`);
             console.log(`sellItem:`);
@@ -880,7 +884,8 @@ App = {
         App.readFormN(processId);
         
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            const walletValue = web3.toWei(1, "ether");
+            // const walletValue = web3.toWei(1, "ether");
+            const walletValue = web3.toWei(App.productPrice, "ether");
             return instance.buyItem(App.upc, App.distributorID, {from: App.metamaskAccountID, value: walletValue});
         }).then(function(result) {
             $("#ftc-item").text(`buyItem, ${result}`);
@@ -898,7 +903,8 @@ App = {
         App.readFormN(processId);
         
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.shipItem(App.upc, {from: App.metamaskAccountID});
+            // return instance.shipItem(App.upc, {from: App.metamaskAccountID});
+            return instance.shipItem(App.upc, {from: App.processorID});
         }).then(function(result) {
             $("#ftc-item").text(`shipItem, ${result}`);
             console.log(`shipItem:`);
@@ -915,7 +921,8 @@ App = {
         App.readFormN(processId);
         
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.receiveItem(App.upc, {from: App.metamaskAccountID});
+            // return instance.receiveItem(App.upc, {from: App.metamaskAccountID});
+            return instance.receiveItem(App.upc, {from: App.retailerID});
         }).then(function(result) {
             $("#ftc-item").text(`receiveItem, ${result}`);
             console.log(`receiveItem:`);
@@ -932,7 +939,8 @@ App = {
         App.readFormN(processId);
         
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.shelfStockItem(App.upc, {from: App.metamaskAccountID});
+            // return instance.shelfStockItem(App.upc, {from: App.metamaskAccountID});
+            return instance.shelfStockItem(App.upc, {from: App.retailerID});
         }).then(function(result) {
             $("#ftc-item").text(`shelfStockItem, ${result}`);
             console.log(`shelfStockItem:`);
@@ -983,7 +991,8 @@ App = {
         App.readFormN(processId);
         
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            return instance.consumerReceivedItem(App.upc, {from: App.metamaskAccountID});
+            // return instance.consumerReceivedItem(App.upc, {from: App.metamaskAccountID});
+            return instance.consumerReceivedItem(App.upc, {from: App.consumerID});
         }).then(function(result) {
             $("#ftc-item").text(`consumerReceivedItem, ${result}`);
             console.log('consumerReceivedItem:');

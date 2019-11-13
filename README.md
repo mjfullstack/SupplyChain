@@ -1,8 +1,19 @@
-# SupplyChain
+# SupplyChain ##
 Udacity Blockchain Supply Chain Project 6
 
-## Project 6 - Part A
+## Project 6 - Part A ##
 See UML Directory for the four diagrams
+
+## Project 6 Part B ##
+Enter your wallet mnemonic into a file called .secret for truffle-config.js to use during configuration
+
+After cloning, connect to the SupplyChain top-level directory and run:
+
+1. npm install
+2. npm run dev
+3. start ganache-cli -m "your menomic words..." or configure truffle GUI
+4. In web browser, go to http://localhost:3000/
+5. Use the instructions in WalkThru.md to exercise the DAPP
 
 ### Deployment Details - WALMART Food Supplychain
 #### Local Network Deployment
