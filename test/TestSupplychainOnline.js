@@ -46,26 +46,31 @@ contract('SupplyChainOnline', function(accounts) {
     ///(8) 0xe07b5ee5f738b2f87f88b99aac9c64ff1e0c7917
     ///(9) 0xbd3ff2e3aded055244d66544c9c059fa0851da44
 
-    // console.log("ganache-cli accounts used here...")
-    // console.log("Contract Owner: accounts[0] ", accounts[0])
-    // console.log("Grower: accounts[1] ", accounts[1])
-    // console.log("Processor: accounts[2] ", accounts[2])
-    // console.log("Distributor: accounts[3] ", accounts[3])
-    // console.log("Retailer: accounts[4] ", accounts[4])
-    // console.log("Consumer: accounts[5] ", accounts[5])
-
-    // Test like app.js does, ALL FROM SAME ADDRESS
+    // Use MULTIPLE Accounts 
     console.log("ganache-cli accounts used here...")
     console.log("Contract Owner: accounts[0] ", accounts[0])
-    console.log("Grower: accounts[1] ", accounts[0])
-    console.log("Processor: accounts[2] ", accounts[0])
-    console.log("Distributor: accounts[3] ", accounts[0])
-    console.log("Retailer: accounts[4] ", accounts[0])
-    console.log("Consumer: accounts[5] ", accounts[0])
+    console.log("Grower: accounts[1] ", accounts[1])
+    console.log("Processor: accounts[2] ", accounts[2])
+    console.log("Distributor: accounts[3] ", accounts[3])
+    console.log("Retailer: accounts[4] ", accounts[4])
+    console.log("Consumer: accounts[5] ", accounts[5])
+
+    // Test like app.js does, ALL FROM SAME ADDRESS
+    // console.log("ganache-cli accounts used here...")
+    // console.log("Contract Owner: accounts[0] ", accounts[0])
+    // console.log("Grower: accounts[1] ", accounts[0])
+    // console.log("Processor: accounts[2] ", accounts[0])
+    // console.log("Distributor: accounts[3] ", accounts[0])
+    // console.log("Retailer: accounts[4] ", accounts[0])
+    // console.log("Consumer: accounts[5] ", accounts[0])
 
     // 1st Test
     it("Testing smart contract function plantItem() that allows a GROWER to PLANT a crop", async() => {
         const supplyChain = await SupplyChain.deployed()
+        // Show size of contract
+        console.log("Show size of contract via deployedBytecode.length:")
+        console.log(supplyChain.constructor._json.deployedBytecode.length);
+
 
         // Add Roles via their addresses
         // THIS IS NOW DONE IN THE FUNCTIONS ON THE BLOCKCHAIN

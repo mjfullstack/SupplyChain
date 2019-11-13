@@ -20,7 +20,7 @@ library Roles {
     // potentially execution costs, I am removing it to get my contracts to compile
     // and run. I still need and asnwer as to why my SupplyChain.sol runs out
     // of gas when this is included.
-    // require(!has(role, account));
+    require(!has(role, account));
 
     role.bearer[account] = true;
   }

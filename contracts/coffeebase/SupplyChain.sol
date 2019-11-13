@@ -266,11 +266,9 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   {
     // Add the originGrowerID as a grower AS WELL AS setting items[_upc].originGrowerID
     // MWJGAS 
-    addGrower(_originGrowerID);    
-    // Preferred construct; however it fails truffle test for out of gas.
-    // if ( !isGrower(_originGrowerID) ) { // This check also runs out of gas if included
-        // addGrower(_originGrowerID);
-    // }
+    if ( !isGrower(_originGrowerID) ) { // This check also runs out of gas if included
+      addGrower(_originGrowerID);
+    }
     // Add the new item as part of Harvest
     items[_upc] = Item( 
       { sku: sku, 
@@ -326,7 +324,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   grown(_upc) 
   // Call modifier to verify caller of this function
   onlyGrower // checking that the grower is on the list
-  // MWJGAS verifyCaller(items[_upc].originGrowerID) // Specific grower for THIS upc
+  // MWJGAS 
+  verifyCaller(items[_upc].originGrowerID) // Specific grower for THIS upc
   public 
   {
     // Update the appropriate fields
@@ -346,7 +345,10 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   public 
   {
     // Add the processorID as a processor AS WELL AS setting items[_upc].processorID
-    // MWJGAS addProcessor(_processorID);
+    // MWJGAS
+    if ( !isProcessor(_processorID) ) { 
+      addProcessor(_processorID);
+    }
     // Update the appropriate fields - currItemOwnerID, processorID, itemState
     // address processor = msg.sender;
     address processor = _processorID;
@@ -364,7 +366,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   collected(_upc) 
   // Call modifier to verify caller of this function
   onlyProcessor // checking that the processor is on the list
-  // MWJGAS verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
+  // MWJGAS 
+  verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
   public 
   {
     // Update the appropriate fields
@@ -381,7 +384,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   processed(_upc) 
   // Call modifier to verify caller of this function
   onlyProcessor // checking that the processor is on the list
-  // MWJGAS verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
+  // MWJGAS 
+  verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
   public 
   {
     // Update the appropriate fields
@@ -397,7 +401,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
   packed(_upc) 
   // Call modifier to verify caller of this function
   onlyProcessor // checking that the processor is on the list
-  // MWJGAS verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
+  // MWJGAS 
+  verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
   public 
   {
     // Update the appropriate fields
@@ -419,7 +424,10 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     // OK, Don't want verify caller since this will establish processorID as a processor
     public
     {
-    // MWJGAS addRetailer(_retailerID);
+    // MWJGAS 
+    if ( !isRetailer(_retailerID) ) { 
+      addRetailer(_retailerID);
+    }
     // Update the items field - NOTE: This is NOT in itemState
     // address retailer = msg.sender;
     address retailer = _retailerID;
@@ -445,7 +453,10 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     onlyDistributor// The FIRST time, distributor is the contract owner who has ALL the roles
     public payable 
     {
-    // MWJGAS addDistributor(_distributorID);
+    // MWJGAS 
+    if ( !isDistributor(_distributorID) ) { 
+      addDistributor(_distributorID);
+    }
     // Update the appropriate fields - currItemOwnerID, distributorID, itemState
     // address buyer = msg.sender;
     address buyer = _distributorID;
@@ -467,7 +478,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     sold(_upc)
     // Call modifier to verify caller of this function
     onlyProcessor // checking that the processor is on the list
-    // MWJGAS verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
+    // MWJGAS 
+    verifyCaller(items[_upc].processorID) // Specific processor for THIS upc
     {
     // Update the appropriate fields
     items[_upc].itemState = State.Shipped;    
@@ -483,7 +495,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     // THEIRS (what?) -> Access Control List enforced by calling Smart Contract / DApp
     // MWJ: Check for onlyRetailer
     onlyRetailer // checking that the retailer is on the list
-    // MWJGAS verifyCaller(items[_upc].retailerID) // Specific retailer for THIS upc
+    // MWJGAS 
+    verifyCaller(items[_upc].retailerID) // Specific retailer for THIS upc
     {
     // Update the appropriate fields - currItemOwnerID, retailerID, itemState
     address retailer = msg.sender;
@@ -501,7 +514,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     // Access Control List enforced by calling Smart Contract / DApp
     // MWJ: Check for onlyRetailer
     onlyRetailer // checking that the retailer is on the list
-    // MWJGAS verifyCaller(items[_upc].retailerID) // Specific retailer for THIS upc
+    // MWJGAS 
+    verifyCaller(items[_upc].retailerID) // Specific retailer for THIS upc
     {
     // Update the appropriate fields - currItemOwnerID, consumerID, itemState
     items[_upc].itemState = State.ShelvesStocked;
@@ -518,7 +532,10 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     shelvesStocked(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     {
-    // MWJGAS addConsumer(_consumerID); // Add to our list, but SHOULD BE INTENTIONALLY never checked - ALL consuners welcome!!!
+    // MWJGAS 
+    if ( !isConsumer(_consumerID) ) { 
+      addConsumer(_consumerID); // Add to our list, but SHOULD BE INTENTIONALLY never checked - ALL consuners welcome!!!
+    }
     // Update the appropriate fields - currItemOwnerID, consumerID, itemState
     address consumer = _consumerID; // See NOTE in ConsumerRole.sol: This shoule be able to be msg.sender
     items[_upc].itemState = State.PurchasedInstore;
@@ -538,7 +555,10 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     // Access Control List enforced by calling Smart Contract / DApp
     {
     // Update the appropriate fields - currItemOwnerID, consumerID, itemState
-    // MWJGAS addConsumer(_consumerID); // On-line consumers are checked for correct consumer receiving item.
+    // MWJGAS 
+    if ( !isConsumer(_consumerID) ) { 
+      addConsumer(_consumerID); // On-line consumers are checked for correct consumer receiving item.
+    }
     address consumer = _consumerID; // See NOTE in ConsumerRole.sol: This shoule be able to be msg.sender
     items[_upc].itemState = State.PurchasedOnline;
     items[_upc].currItemOwnerID = consumer;
@@ -554,7 +574,8 @@ contract SupplyChain is Ownable, GrowerRole, ProcessorRole, DistributorRole, Ret
     purchasedOnline(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     onlyConsumer // Consumer must be on the list to mark an item received
-    // MWJGAS verifyCaller(items[_upc].consumerID) // Specific consumer for THIS upc
+    // MWJGAS 
+    verifyCaller(items[_upc].consumerID) // Specific consumer for THIS upc
     {
     // Update the appropriate fields - currItemOwnerID, consumerID, itemState
     // address consumer = msg.sender;

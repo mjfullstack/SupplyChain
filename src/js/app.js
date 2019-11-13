@@ -34,29 +34,37 @@ App = {
 
     // Write Only Section 6, fetch1 button fields
     writeFetch1Fields: function (_fetch1Res) {
-        $("#sku6").val(_fetch1Res[0].c[0]);
-        $("#upc6").val(_fetch1Res[1].c[0]);
-        $("#ownerID6").val(_fetch1Res[2]); // App.currItemOwnerID
-        $("#originFarmerID6").val(_fetch1Res[3]);
-        $("#originFarmName6").val(_fetch1Res[4]);
-        $("#originFarmInformation6").val(_fetch1Res[5]);
-        $("#originFarmLatitude6").val(_fetch1Res[6]);
-        $("#originFarmLongitude6").val(_fetch1Res[7]);
-        $("#processorID6").val(_fetch1Res[8]);
+        if ( !_fetch1Res) {
+            $("#upc6").val(0);
+        } else {
+            $("#sku6").val(_fetch1Res[0].c[0]);
+            $("#upc6").val(_fetch1Res[1].c[0]);
+            $("#ownerID6").val(_fetch1Res[2]); // App.currItemOwnerID
+            $("#originFarmerID6").val(_fetch1Res[3]);
+            $("#originFarmName6").val(_fetch1Res[4]);
+            $("#originFarmInformation6").val(_fetch1Res[5]);
+            $("#originFarmLatitude6").val(_fetch1Res[6]);
+            $("#originFarmLongitude6").val(_fetch1Res[7]);
+            $("#processorID6").val(_fetch1Res[8]);
+        }
     },
 
     // Write Only Section 7, fetch2 button fields
     writeFetch2Fields: function (_fetch2Res) {
-        $("#sku7").val(_fetch2Res[0].c[0]);
-        $("#upc7").val(_fetch2Res[1].c[0]);
-        $("#productID7").val(_fetch2Res[2].c[0]);
-        $("#productNotes7").val(_fetch2Res[3]);
-        $("#productPrice7").val(_fetch2Res[4].c[0]);
-        // $("#productState7").val(_fetch2Res[5].c[0]);
-        $("#productState7").val(App.localItemState);
-        $("#distributorID7").val(_fetch2Res[6]);
-        $("#retailerID7").val(_fetch2Res[7]);
-        $("#consumerID7").val(_fetch2Res[8]);
+        if ( !_fetch2Res) {
+            $("#upc7").val(0);
+        } else {
+            $("#sku7").val(_fetch2Res[0].c[0]);
+            $("#upc7").val(_fetch2Res[1].c[0]);
+            $("#productID7").val(_fetch2Res[2].c[0]);
+            $("#productNotes7").val(_fetch2Res[3]);
+            $("#productPrice7").val(_fetch2Res[4].c[0]);
+            // $("#productState7").val(_fetch2Res[5].c[0]);
+            $("#productState7").val(App.localItemState);
+            $("#distributorID7").val(_fetch2Res[6]);
+            $("#retailerID7").val(_fetch2Res[7]);
+            $("#consumerID7").val(_fetch2Res[8]);
+        }
     },
     
     // Write Sections 1 through 5 fields
@@ -511,34 +519,39 @@ App = {
         // return await App.fetchItemBufferOne(App.upc); // ORIG
         let case18bufOne = await App.fetchItemBufferOne(_dispUPC);
         console.log("case18bufOne:");
-        console.log(case18bufOne); // UNDEFINED, so next line NOT done correctly here
-        await App.consoleLogFetch1Results(case18bufOne); // Done correctly in fetchItemBufferOne
-        await App.updateAppVarsFetch1(case18bufOne); // Update App.x VARS
+        console.log(case18bufOne); 
+        if (!case18bufOne) { // If undefined, report in only one location
+            $("#upc1").val(0); // Zero means UPC is un-used / available
+        } else {
+            await App.consoleLogFetch1Results(case18bufOne); // Done correctly in fetchItemBufferOne
+            await App.updateAppVarsFetch1(case18bufOne); // Update App.x VARS
 
-        // return await App.fetchItemBufferTwo(App.upc); // ORIG
-        let case18bufTwo = await App.fetchItemBufferTwo(_dispUPC);
-        console.log("case18bufTwo:");
-        console.log(case18bufTwo);
-        await App.consoleLogFetch2Results(case18bufTwo);
-        await App.updateAppVarsFetch2(case18bufTwo);
-        
-        // NEW: Adding retailerOrdered
-        let case18bufThree = await App.fetchItemBufferThree(_dispUPC);
-        console.log("case18bufThree:");
-        console.log(case18bufThree);
-        await App.consoleLogFetch3Results(case18bufThree);
-        await App.updateAppVarsFetch3(case18bufThree);
+            // return await App.fetchItemBufferTwo(App.upc); // ORIG
+            let case18bufTwo = await App.fetchItemBufferTwo(_dispUPC);
+            console.log("case18bufTwo:");
+            console.log(case18bufTwo);
+            await App.consoleLogFetch2Results(case18bufTwo);
+            await App.updateAppVarsFetch2(case18bufTwo);
+            
+            // NEW: Adding retailerOrdered
+            let case18bufThree = await App.fetchItemBufferThree(_dispUPC);
+            console.log("case18bufThree:");
+            console.log(case18bufThree);
+            await App.consoleLogFetch3Results(case18bufThree);
+            await App.updateAppVarsFetch3(case18bufThree);
 
-        await App.updateLocalItemState(App.productState); // Get numeric to string
-        await App.updateActiveButton(App.localItemState); // Present string on page
-        await App.writePageFields();
-        return await ( [case18bufOne, case18bufTwo, case18bufThree] );
+            await App.updateLocalItemState(App.productState); // Get numeric to string
+            await App.updateActiveButton(App.localItemState); // Present string on page
+            await App.writePageFields();
+            return await ( [case18bufOne, case18bufTwo, case18bufThree] );
+        }
 },
 
     initWeb3: async function () {
         /// Find or Inject Web3 Provider
         /// Modern dapp browsers...
         if (window.ethereum) {
+            console.log("initWeb3: Modern dapp browsers...");
             App.web3Provider = window.ethereum;
             try {
                 // Request account access
@@ -550,10 +563,12 @@ App = {
         }
         // Legacy dapp browsers...
         else if (window.web3) {
+            console.log("initWeb3: Legacy dapp browsers...");
             App.web3Provider = window.web3.currentProvider;
         }
         // If no injected web3 instance is detected, fall back to Ganache
         else {
+            console.log("initWeb3: If no injected web3 instance is detected, fall back to Ganache...");
             App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
         }
 
@@ -649,7 +664,7 @@ App = {
                 console.log('upc6', _upc6); // MWJ
                 // return await App.fetchItemBufferOne(App.upc); // ORIG
                 let case9result = await App.fetchItemBufferOne(_upc6);
-                await App.writeFetch1Fields(case9result);
+                await App.writeFetch1Fields(case9result); // Write WEB Page fields
                 return case9result;
                 break;
             case 10: // fetch 2
@@ -661,7 +676,7 @@ App = {
                 // return await App.fetchItemBufferTwo(App.upc); // ORIG
                 let case10result = await App.fetchItemBufferTwo(_upc7);
                 // await App.updateLocalItemState(case10result[5].c[0]); // Numeric state value from blockchain
-                await App.writeFetch2Fields(case10result);
+                await App.writeFetch2Fields(case10result); // Write WEB Page fields
                 return case10result;
                 break;
             case 11: // plantItem()
@@ -713,13 +728,14 @@ App = {
         await App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.plantItem(
                 App.upc, 
-                App.metamaskAccountID, 
+                App.metamaskAccountID, // Not useful for demo
+                // App.originFarmerID, 
                 App.originFarmName, 
                 App.originFarmInformation, 
                 App.originFarmLatitude, 
                 App.originFarmLongitude, 
                 App.productNotes
-                // {from: App.metamaskAccountID} // Invalid # of args to Solidity function
+                // {gas: web3.toWei(0.1,'ether')}
             );
         }).then(function(result) {
             $("#ftc-item").text(`plantItem, ${result}`);
@@ -991,7 +1007,6 @@ App = {
     //         console.log('fetchItemBufferOne:');
     //         // bufOne = result;
     //         App.consoleLogFetch1Results(result);
-    //         App.writeFetch1Fields(result); // Write WEB Page fields
     //         return await result;
     //     }).catch(function(err) {
     //         console.log(err.message);
@@ -1021,11 +1036,14 @@ App = {
 
         try {
             const instance = await App.contracts.SupplyChain.deployed()
-            console.log(`In returned instance... about to fetch Buf1`);
+            // console.log(`In returned instance... about to fetch Buf1`);
             const result = await instance.fetchItemBufferOne.call(App.upc);
-            console.log('fetchItemBufferOne:');
-            App.consoleLogFetch1Results(result);
-            // App.writeFetch1Fields(result); // Write WEB Page fields
+            if (!result) {
+                console.log("fetchItemBufferONE NULL response.")
+            } else {
+                console.log('fetchItemBufferOne:');
+                App.consoleLogFetch1Results(result);
+            }
             return result;
         }
         catch (err) {
@@ -1039,12 +1057,15 @@ App = {
 
         try {
             const instance = await App.contracts.SupplyChain.deployed()
-            console.log(`In returned instance... about to fetch Buf2`);
+            // console.log(`In returned instance... about to fetch Buf2`);
             const result = await instance.fetchItemBufferTwo.call(App.upc);
-            console.log('fetchItemBufferTwo:');
-            App.consoleLogFetch2Results(result);
-            App.updateLocalItemState(result[5].c[0]); // Numeric state value from blockchain
-            // App.writeFetch2Fields(result); // Write WEB Page fields
+            if (!result) {
+                console.log("fetchItemBufferTWO NULL response.")
+            } else {
+                console.log('fetchItemBufferTwo:');
+                App.consoleLogFetch2Results(result);
+                App.updateLocalItemState(result[5].c[0]); // Numeric state value from blockchain
+            }
             return result;
         }
         catch (err) {
@@ -1058,10 +1079,14 @@ App = {
 
         try {
             const instance = await App.contracts.SupplyChain.deployed()
-            console.log(`In returned instance... about to fetch Buf3`);
+            // console.log(`In returned instance... about to fetch Buf3`);
             const result = await instance.fetchItemBufferThree.call(App.upc);
-            console.log('fetchItemBufferThree:');
-            App.consoleLogFetch3Results(result);
+            if (!result) {
+                console.log("fetchItemBufferTHREE NULL response.")
+            } else {
+                console.log('fetchItemBufferThree:');
+                App.consoleLogFetch3Results(result);
+            }
             return result;
         }
         catch (err) {
